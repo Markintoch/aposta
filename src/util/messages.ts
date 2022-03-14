@@ -1,0 +1,31 @@
+
+export enum Messages{
+    RUNNING_PORT = "El servicio corre en el puerto :",
+    TOKEN_ERROR_AFIRME = "Error al obtener el token Afirme",
+    TOKEN_ERROR_GN = "Error al obtener el token GN",
+    TOKEN_NOT_RECEIVED = "No se recibio ningun token",
+    MARCAS_ERROR = "Error en el cliente de marcas de GN",
+    ID_ESTADO_ISNULL = "El estado a consultar es requerido",
+    ID_MARCA_ISNULL = "La marca a consultar es requerido",
+    ESTADOS_ISEMPTY = "No hay estados disponibles, intente de nuevo",
+    MUNICIPIOS_ISEMPTY = "No hay municipios disponibles para este estado",
+    MARCAS_ISNULL = "No hay marcas disponibles, intente de nuevo",
+    ESTILOS_ISNULL = "No hay estilos disponibles para esta marca",
+    MODELOS_ISNULL = "No hay modelos disponibles para esta marca",
+    ID_MODELO_ISNULL = "El modelo a consultar es requerido",
+    CANNOT_CONNECT_DB = "No se pudo establecer una conexion a la base de datos",
+    NOMBRE_ISREQUIRED = "El nombre es requerido para completar el registro",
+    USERNAME_ISREQUIRED = "El username es requerido para completar el registro",
+    PASSWORD_ISREQUIRED = "El password es requerido para completar el registro",
+    EMAIL_ISREQUIRED = "El correo es requerido para completar el registro",
+    ERROR_INSERT_NEW_USER = "Error al insertar el nuevo usuario",
+    USERNAME_ALREADY_EXIST = "Ya existe un usuario con este username",
+    ACCOUNT_ALREADY_EXIST = "Ya existe una cuenta con estos datos",
+    ID_COTIZACION_ISNULL = "El ID de la cotizacion es requerido",
+    PAQUETES_ISNULL = "Los paquetes de coberturas son requeridos",
+    USERNAME_NOT_EXIST = "El usuario no existe",
+    WRONG_PASSWORD = "La contraseña es incorrecta",
+    LOGIN_ERROR = "Error al identificarse, contacte al administrador",
+    SINGIN_ERROR = "Error al registrarse, contacte al administrador"
+
+}

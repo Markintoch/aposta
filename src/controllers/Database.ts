@@ -1,0 +1,78 @@
+/* import * as mysql from 'mysql'; */
+import { Messages } from '../util/messages';
+
+import { Pool, Client } from 'pg';
+import { AuthController } from './AuthController';
+import { EmailController } from './Email';
+import { GeneralController } from './GeneralController';
+
+const crypto = require('crypto');
+
+const connection = new Client({
+    user: 'dev',
+    host: process.env.DB_HOST,
+    database: 'aposta',
+    password: 'test1205',
+    port: Number(process.env.DB_PORT),
+  }) //Checar porque no me reconoce los parametros.
+
+
+class Database {
+
+    constructor(){
+        try{ connection.connect(); }
+        catch(error){ throw new Error(Messages.CANNOT_CONNECT_DB); }
+    }
+
+    async insertUser( name : string , username : string , email : string, password : string){
+        let hashPassword = GeneralController.generateHash( password );
+        let tokenData = GeneralController.encodeToken(AuthController.generateWebToken({ username : username, email : email }));
+        let createdOn = new Date();
+        let arrValues = [username, hashPassword, email, name, createdOn, false, false, 2, tokenData];
+        let selectData = [username, email];
+        let selectQuery = 'SELECT * FROM usuarios WHERE username=$1 or email=$2';
+        let insertQuery = 'INSERT INTO usuarios(username, password, email, name, created_on, active, validated, role, code ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)';
+        let checkUserExist = await this.runQueryAsync( selectQuery, selectData ).catch( (error : any) => { throw new Error(Messages.SINGIN_ERROR)} );
+        if (checkUserExist.rows.length) { throw new Error(Messages.ACCOUNT_ALREADY_EXIST) }
+        let result = await this.runQueryAsync(insertQuery, arrValues).catch( (error : any) => { throw new Error(Messages.SINGIN_ERROR) } )
+        EmailController.registerEmail(email, name, tokenData);
+        return result;
+    }
+
+    async loginUser( username : string, password : string ){
+        let hashPassword = GeneralController.generateHash( password );
+        let checkExistData = [username];
+        let loginData = [username, hashPassword];
+        let selectQuery = 'SELECT * FROM usuarios WHERE username=$1';
+        let loginQuery = 'SELECT user_id, name, email, username FROM usuarios WHERE username = $1 AND password = $2';
+        let checkUserExist = await this.runQueryAsync( selectQuery, checkExistData ).catch( (error : any) => { throw new Error(Messages.LOGIN_ERROR)} );
+        if ( !checkUserExist.rows.length ) { throw new Error(Messages.USERNAME_NOT_EXIST) }
+        let checkLogin = await this.runQueryAsync( loginQuery, loginData ).catch( (error : any) => { throw new Error(Messages.LOGIN_ERROR)} );
+        if ( !checkLogin.rows.length ) { throw new Error(Messages.WRONG_PASSWORD) }
+        return checkLogin.rows;
+    }
+
+    async confirmCodeActivation( token : string ){
+        let checkExistData = [token];
+        let selectQuery = 'SELECT * FROM usuarios WHERE code=$1';
+        let checkUserExist = await this.runQueryAsync( selectQuery, checkExistData ).catch( (error : any) => { console.log(error); throw new Error(Messages.LOGIN_ERROR)} );
+        if ( !checkUserExist.rows.length ) { throw new Error(Messages.USERNAME_NOT_EXIST) }
+        return checkUserExist.rows;
+    }
+
+    runQueryAsync = ( query : string , queryValues : any ) => {
+        return new Promise<any>( (resolve, reject ) => {
+            let finalQuery = {
+                text : query,
+                values : queryValues
+            };
+            connection.query(finalQuery, (err : any, res : any) => {
+                if(err) reject(err);
+                else resolve(res);
+            })
+        })
+    }
+
+}
+
+export const DatabaseController = new Database();
