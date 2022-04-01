@@ -1,9 +1,11 @@
 import express, { Application } from 'express';
 import AUTH_ROUTER from './routes/AuthRoutes';
+import LIGA_ROUTER from './routes/LigaRoutes';
 import { Messages } from './util/messages'; 
 import cors from 'cors';
 
 import { DatabaseController } from './controllers/Database';
+import fileUpload from 'express-fileupload';
 
 const bodyParser = require('body-parser');
 
@@ -27,11 +29,13 @@ class Server{
 
     config() : void {
         this.app.set('port', this.port);
+        this.app.use(fileUpload({ createParentPath: true }));
     }
 
     routes() : void {
         this.app.use(this.cors);
         this.app.use('/api/auth', AUTH_ROUTER);
+        this.app.use('/api/liga', LIGA_ROUTER);
     }
 
     start() : void {

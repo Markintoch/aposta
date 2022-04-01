@@ -9,11 +9,19 @@ const Email_1 = require("./Email");
 const GeneralController_1 = require("./GeneralController");
 const crypto = require('crypto');
 const connection = new pg_1.Client({
+    /*/
     user: 'dev',
     host: process.env.DB_HOST,
     database: 'aposta',
     password: 'test1205',
     port: Number(process.env.DB_PORT),
+    /*/
+    user: 'postgres',
+    database: 'aposta',
+    password: '1205',
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),
+    //*/
 }); //Checar porque no me reconoce los parametros.
 class Database {
     constructor() {
@@ -45,12 +53,12 @@ class Database {
         let arrValues = [username, hashPassword, email, name, createdOn, false, false, 2, tokenData];
         let selectData = [username, email];
         let selectQuery = 'SELECT * FROM usuarios WHERE username=$1 or email=$2';
-        let insertQuery = 'INSERT INTO usuarios(username, password, email, name, created_on, active, validated, role, code ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)';
-        let checkUserExist = await this.runQueryAsync(selectQuery, selectData).catch((error) => { throw new Error(messages_1.Messages.SINGIN_ERROR); });
+        let insertQuery = 'INSERT INTO usuarios(username, password, email, name, created_on, active, validated, role_id, code ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)';
+        let checkUserExist = await this.runQueryAsync(selectQuery, selectData).catch((error) => { console.log(error); throw new Error(messages_1.Messages.SINGIN_ERROR); });
         if (checkUserExist.rows.length) {
             throw new Error(messages_1.Messages.ACCOUNT_ALREADY_EXIST);
         }
-        let result = await this.runQueryAsync(insertQuery, arrValues).catch((error) => { throw new Error(messages_1.Messages.SINGIN_ERROR); });
+        let result = await this.runQueryAsync(insertQuery, arrValues).catch((error) => { console.log("error insert"); console.log(error); throw new Error(messages_1.Messages.SINGIN_ERROR); });
         Email_1.EmailController.registerEmail(email, name, tokenData);
         return result;
     }
@@ -73,11 +81,28 @@ class Database {
     async confirmCodeActivation(token) {
         let checkExistData = [token];
         let selectQuery = 'SELECT * FROM usuarios WHERE code=$1';
-        let checkUserExist = await this.runQueryAsync(selectQuery, checkExistData).catch((error) => { console.log(error); throw new Error(messages_1.Messages.LOGIN_ERROR); });
+        let checkUserExist = await this.runQueryAsync(selectQuery, checkExistData).catch((error) => { throw new Error(messages_1.Messages.LOGIN_ERROR); });
         if (!checkUserExist.rows.length) {
             throw new Error(messages_1.Messages.USERNAME_NOT_EXIST);
         }
         return checkUserExist.rows;
+    }
+    async validActivation(user_id) {
+        let updateData = [user_id];
+        let updateQuery = "UPDATE usuarios SET active = true, validated = true WHERE user_id = $1";
+        await this.runQueryAsync(updateQuery, updateData).catch((error) => { throw new Error(messages_1.Messages.VALIDATED_ERROR); });
+    }
+    async getDataByEmail(email) {
+    }
+    async insertLiga(nombre, path_img) {
+        let updateData = [nombre, path_img];
+        let updateQuery = "INSERT INTO ligas( nombre, logo ) VALUES($1, $2)";
+        await this.runQueryAsync(updateQuery, updateData).catch((error) => { throw new Error(messages_1.Messages.LIGA_INSERT_ERROR); });
+    }
+    async updateLiga(id, nombre, path_img) {
+        let updateData = [id, nombre, path_img];
+        let updateQuery = "UPDATE ligas SET nombre = $2, logo = $3 WHERE liga_id = $1";
+        await this.runQueryAsync(updateQuery, updateData).catch((error) => { throw new Error(messages_1.Messages.LIGA_INSERT_ERROR); });
     }
 }
 exports.DatabaseController = new Database();

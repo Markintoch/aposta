@@ -58,10 +58,10 @@ class Email {
                 from: 'APOSTA SERVICES <ejemplo@gmail.com>',
                 to: `${receiverMail}`,
                 subject: 'Confirmacion de activacion de cuenta',
-                html: `<h1>Email Confirmation</h1>
+                html: `<h1>Confirmacion de correo</h1>
                     <h2>Hello ${nombre}</h2>
-                    <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
-                    <a href=http://localhost:3000/api/auth/confirm/${codigo}>Click here</a>
+                    <p>Gracias por registrarte en APOSTA, termina la verificacion de tu correo dando click al siguiente enlace :</p>
+                    <a href=http://localhost:3000/api/auth/confirm/${codigo}>Verificar</a>
                     </div>`,
             });
         }

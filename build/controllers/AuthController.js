@@ -50,7 +50,7 @@ class Auth {
             }
             let result = await Database_1.DatabaseController.insertUser(nombre, username, email, password);
             let responseData = { id: result.user_id, nombre: nombre, username: username, email: email };
-            let body = { status: 200, message: "COnfirmar su registro con el correo de auth", data: responseData };
+            let body = { status: 200, message: "Revise su correo electronico concluir el registro", data: responseData };
             response.json(body);
         }
         catch (error) {
@@ -83,12 +83,22 @@ class Auth {
         try {
             let token64 = request.params.token;
             if (token64 == undefined || token64 == null || token64.trim() == '') {
-                throw new Error("error al recibir token");
+                throw new Error("Error al recibir token");
             }
             let result = await Database_1.DatabaseController.confirmCodeActivation(token64);
             let responseData = { id: result[0].user_id, nombre: result[0].nombre, username: result[0].username, email: result[0].email };
+            await Database_1.DatabaseController.validActivation(result[0].user_id);
             let body = { status: 200, data: responseData };
             response.json(body);
+        }
+        catch (error) {
+            let errorBody = { error: error.message };
+            response.status(400).send(errorBody);
+        }
+    }
+    async recoverPassword(request, response) {
+        try {
+            let email = request.params.email;
         }
         catch (error) {
             let errorBody = { error: error.message };

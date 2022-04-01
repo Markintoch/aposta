@@ -9,11 +9,19 @@ import { GeneralController } from './GeneralController';
 const crypto = require('crypto');
 
 const connection = new Client({
+    /*/
     user: 'dev',
     host: process.env.DB_HOST,
     database: 'aposta',
     password: 'test1205',
     port: Number(process.env.DB_PORT),
+    /*/
+    user : 'postgres',
+    database : 'aposta', 
+    password : '1205',
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),
+    //*/
   }) //Checar porque no me reconoce los parametros.
 
 
@@ -31,10 +39,10 @@ class Database {
         let arrValues = [username, hashPassword, email, name, createdOn, false, false, 2, tokenData];
         let selectData = [username, email];
         let selectQuery = 'SELECT * FROM usuarios WHERE username=$1 or email=$2';
-        let insertQuery = 'INSERT INTO usuarios(username, password, email, name, created_on, active, validated, role, code ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)';
-        let checkUserExist = await this.runQueryAsync( selectQuery, selectData ).catch( (error : any) => { throw new Error(Messages.SINGIN_ERROR)} );
+        let insertQuery = 'INSERT INTO usuarios(username, password, email, name, created_on, active, validated, role_id, code ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)';
+        let checkUserExist = await this.runQueryAsync( selectQuery, selectData ).catch( (error : any) => { console.log(error); throw new Error(Messages.SINGIN_ERROR)} );
         if (checkUserExist.rows.length) { throw new Error(Messages.ACCOUNT_ALREADY_EXIST) }
-        let result = await this.runQueryAsync(insertQuery, arrValues).catch( (error : any) => { throw new Error(Messages.SINGIN_ERROR) } )
+        let result = await this.runQueryAsync(insertQuery, arrValues).catch( (error : any) => { console.log("error insert"); console.log(error); throw new Error(Messages.SINGIN_ERROR) } )
         EmailController.registerEmail(email, name, tokenData);
         return result;
     }
@@ -55,9 +63,31 @@ class Database {
     async confirmCodeActivation( token : string ){
         let checkExistData = [token];
         let selectQuery = 'SELECT * FROM usuarios WHERE code=$1';
-        let checkUserExist = await this.runQueryAsync( selectQuery, checkExistData ).catch( (error : any) => { console.log(error); throw new Error(Messages.LOGIN_ERROR)} );
+        let checkUserExist = await this.runQueryAsync( selectQuery, checkExistData ).catch( (error : any) => { throw new Error(Messages.LOGIN_ERROR)} );
         if ( !checkUserExist.rows.length ) { throw new Error(Messages.USERNAME_NOT_EXIST) }
         return checkUserExist.rows;
+    }
+
+    async validActivation( user_id : any ){
+        let updateData = [user_id];
+        let updateQuery = "UPDATE usuarios SET active = true, validated = true WHERE user_id = $1";
+        await this.runQueryAsync( updateQuery, updateData ).catch( (error : any) => { throw new Error(Messages.VALIDATED_ERROR)} );
+    }
+
+    async getDataByEmail( email : string ){
+
+    }
+
+    async insertLiga( nombre : string, path_img : string ){
+        let updateData = [nombre, path_img];
+        let updateQuery = "INSERT INTO ligas( nombre, logo ) VALUES($1, $2)";
+        await this.runQueryAsync( updateQuery, updateData ).catch( (error : any) => { throw new Error(Messages.LIGA_INSERT_ERROR)} );
+    }
+
+    async updateLiga( id : any, nombre : string, path_img : string ){
+        let updateData = [id, nombre, path_img];
+        let updateQuery = "UPDATE ligas SET nombre = $2, logo = $3 WHERE liga_id = $1";
+        await this.runQueryAsync( updateQuery, updateData ).catch( (error : any) => { throw new Error(Messages.LIGA_INSERT_ERROR)} );
     }
 
     runQueryAsync = ( query : string , queryValues : any ) => {

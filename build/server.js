@@ -5,8 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const AuthRoutes_1 = __importDefault(require("./routes/AuthRoutes"));
+const LigaRoutes_1 = __importDefault(require("./routes/LigaRoutes"));
 const messages_1 = require("./util/messages");
 const cors_1 = __importDefault(require("cors"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const bodyParser = require('body-parser');
 require('dotenv').config();
 class Server {
@@ -21,10 +23,12 @@ class Server {
     }
     config() {
         this.app.set('port', this.port);
+        this.app.use((0, express_fileupload_1.default)({ createParentPath: true }));
     }
     routes() {
         this.app.use(this.cors);
         this.app.use('/api/auth', AuthRoutes_1.default);
+        this.app.use('/api/liga', LigaRoutes_1.default);
     }
     start() {
         let port = this.app.get('port');
