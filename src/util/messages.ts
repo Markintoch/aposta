@@ -18,7 +18,10 @@ export enum Messages{
     ID_ISREQUIRED = "El id del objeto es requerido",
     IMG_ISREQUIRED = "Es necesario proporcionar una imagen al registro",
     LIGA_INSERT_ERROR = "Error al crear la liga, contacte al administrador",
+    QUERY_UPDATE_ERROR = "Error al eliminar el registro, contacte al administrador",
+    QUERY_DELETE_ERROR = "Error al eliminar el registro, contacte al administrador",
+    QUERY_SELECT_ERROR = "Error al obtener el registro solicitado, contacte al administrado",
     SUCCESS_INSERT = "Registro hecho con exito",
-    SUCCES_UPDATE = "Registro actualizado con exito",
-
+    SUCCESS_UPDATE = "Registro actualizado con exito",
+    SUCCESS_DELETE = "Registro eliminado con exito"
 }

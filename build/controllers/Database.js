@@ -102,7 +102,30 @@ class Database {
     async updateLiga(id, nombre, path_img) {
         let updateData = [id, nombre, path_img];
         let updateQuery = "UPDATE ligas SET nombre = $2, logo = $3 WHERE liga_id = $1";
-        await this.runQueryAsync(updateQuery, updateData).catch((error) => { throw new Error(messages_1.Messages.LIGA_INSERT_ERROR); });
+        await this.runQueryAsync(updateQuery, updateData).catch((error) => { throw new Error(messages_1.Messages.QUERY_UPDATE_ERROR); });
+    }
+    async deleteLiga(id) {
+        let deleteData = [id];
+        let deleteQuery = "DELETE FROM ligas where liga_id = $1";
+        await this.runQueryAsync(deleteQuery, deleteData).catch((error) => { throw new Error(messages_1.Messages.QUERY_DELETE_ERROR); });
+    }
+    async simpleSelectById(tabla, atributo, atributo_id) {
+        let selectData = [atributo_id];
+        let selectQuery = "SELECT * FROM " + tabla + " WHERE " + atributo + " = $1";
+        let selectResult = await this.runQueryAsync(selectQuery, selectData).catch((error) => { throw new Error(messages_1.Messages.QUERY_SELECT_ERROR); });
+        if (!selectResult.rows.length) {
+            return null;
+        }
+        return selectResult.rows;
+    }
+    //agregar a la tabla el campo de activo
+    async selectAll(tabla) {
+        let selectQuery = "SELECT * FROM " + tabla;
+        let selectResult = await this.runQueryAsync(selectQuery, null).catch((error) => { throw new Error(messages_1.Messages.QUERY_SELECT_ERROR); });
+        if (!selectResult.rows.length) {
+            return null;
+        }
+        return selectResult.rows;
     }
 }
 exports.DatabaseController = new Database();

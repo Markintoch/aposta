@@ -13,9 +13,9 @@ class LigaRouter{
     config() : void {
         this.router.post('/create', LigaController.createLiga.bind(LigaController));
         this.router.post('/update',LigaController.updateLiga.bind(LigaController));
-        this.router.get('/delete/:id');
-        this.router.get('/get/:id');
-        this.router.get('/list');
+        this.router.delete('/delete/:id', LigaController.deleteLiga.bind(LigaController));
+        this.router.get('/get/:id', LigaController.getLiga.bind(LigaController));
+        this.router.get('/list', LigaController.getLigas.bind(LigaController));
     }
 
 }
