@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { TemporadaController } from '../controllers/TemporadaController';
 /* import { DataController } from '../controllers/DataController'; */
 
 class TemporadaRouter{
@@ -13,7 +14,8 @@ class TemporadaRouter{
         this.router.post('/create');
         this.router.post('/update');
         this.router.get('/delete/:id');
-        this.router.get('/get/:id');
+        this.router.delete('/delete/:id', TemporadaController.deleteTemporada.bind(TemporadaController));
+        this.router.get('/get/:id', TemporadaController.getTemporada.bind(TemporadaController));
         this.router.get('/list');
     }
 

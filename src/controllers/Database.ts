@@ -78,21 +78,27 @@ class Database {
 
     }
 
-    async insertLiga( nombre : string, path_img : string ){
-        let updateData = [nombre, path_img];
-        let updateQuery = "INSERT INTO ligas( nombre, logo ) VALUES($1, $2)";
+    async insertLiga( nombre : string, path_img : string , activo : boolean ){
+        let updateData = [nombre, path_img, activo];
+        let updateQuery = "INSERT INTO ligas( nombre, logo, active ) VALUES($1, $2, $3)";
         await this.runQueryAsync( updateQuery, updateData ).catch( (error : any) => { throw new Error(Messages.LIGA_INSERT_ERROR)} );
     }
 
-    async updateLiga( id : any, nombre : string, path_img : string ){
-        let updateData = [id, nombre, path_img];
-        let updateQuery = "UPDATE ligas SET nombre = $2, logo = $3 WHERE liga_id = $1";
+    async updateLiga( id : any, nombre : string, path_img : string , activo : boolean ){
+        let updateData = [id, nombre, path_img, activo];
+        let updateQuery = "UPDATE ligas SET nombre = $2, logo = $3, active = $4 WHERE liga_id = $1";
         await this.runQueryAsync( updateQuery, updateData ).catch( (error : any) => { throw new Error(Messages.QUERY_UPDATE_ERROR)} );
     }
 
     async deleteLiga( id : any ){
         let deleteData = [id];
         let deleteQuery = "DELETE FROM ligas where liga_id = $1";
+        await this.runQueryAsync( deleteQuery, deleteData ).catch( (error : any) => { throw new Error(Messages.QUERY_DELETE_ERROR)} );
+    }
+
+    async deleteById( tabla : string, atributo : string, atributo_id : any ){
+        let deleteData = [atributo_id];
+        let deleteQuery = "DELETE FROM " + tabla + " WHERE " + atributo + " = $1";
         await this.runQueryAsync( deleteQuery, deleteData ).catch( (error : any) => { throw new Error(Messages.QUERY_DELETE_ERROR)} );
     }
 
