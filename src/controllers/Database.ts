@@ -9,7 +9,7 @@ import { GeneralController } from './GeneralController';
 const crypto = require('crypto');
 
 const connection = new Client({
-    /*/
+    //*/
     user: 'dev',
     host: process.env.DB_HOST,
     database: 'aposta',
@@ -108,6 +108,20 @@ class Database {
         let selectResult = await this.runQueryAsync( selectQuery, selectData ).catch( (error : any) => { throw new Error(Messages.QUERY_SELECT_ERROR)} );
         if ( !selectResult.rows.length ) { return null; }
         return selectResult.rows;
+    }
+
+    async simpleInsert( tabla : string, atributos : string, valores : any[] ){
+        let insetData : any[] = valores;
+        let queryValues : string = GeneralController.generateDatabaseQueryParam(valores.length);
+        let insetQuery = `INSERT INTO ${tabla} ( ${atributos} ) VALUES ( ${queryValues} )`;
+        await this.runQueryAsync( insetQuery, insetData ).catch( (error : any) => { throw new Error(Messages.LIGA_INSERT_ERROR)} );
+    }
+
+    async simpleUpdateWithCondition( tabla : string, atributos : string[], valores : any[], condicion : string ){
+        let updateData = valores;
+        let queryAtributos = GeneralController.generateDatabaseQueryUpdateAtt(atributos)
+        let updateQuery =`UPDATE ${tabla} ${queryAtributos} ${condicion}`;
+        await this.runQueryAsync( updateQuery, updateData ).catch( (error : any) => { throw new Error(Messages.QUERY_UPDATE_ERROR)} );
     }
 
     //agregar a la tabla el campo de activo

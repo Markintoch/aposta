@@ -11,12 +11,11 @@ class TemporadaRouter{
     }
 
     config() : void {
-        this.router.post('/create');
-        this.router.post('/update');
-        this.router.get('/delete/:id');
+        this.router.post('/create', TemporadaController.createTemporada.bind(TemporadaController));
+        this.router.post('/update', TemporadaController.updateTemporada.bind(TemporadaController));
         this.router.delete('/delete/:id', TemporadaController.deleteTemporada.bind(TemporadaController));
         this.router.get('/get/:id', TemporadaController.getTemporada.bind(TemporadaController));
-        this.router.get('/list');
+        this.router.get('/list/:id', TemporadaController.getTemporadasByLiga.bind(TemporadaController));
     }
 
 }
