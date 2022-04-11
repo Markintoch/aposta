@@ -1,11 +1,15 @@
 import express, { Application } from 'express';
-import AUTH_ROUTER from './routes/AuthRoutes';
-import LIGA_ROUTER from './routes/LigaRoutes';
 import { Messages } from './util/messages'; 
+import fileUpload from 'express-fileupload';
 import cors from 'cors';
 
-import { DatabaseController } from './controllers/Database';
-import fileUpload from 'express-fileupload';
+import AUTH_ROUTER from './routes/AuthRoutes';
+import LIGA_ROUTER from './routes/LigaRoutes';
+import TEMPORADA_ROUTER from './routes/TemporadaRoutes';
+import EQUIPO_ROUTER from './routes/EquipoRoutes';
+import JORNADA_ROUTER from './routes/JornadaRoutes';
+import PARTIDO_ROUTER from './routes/PartidoRoutes';
+import RESULTADO_ROUTER from './routes/ResultadoRoutes';
 
 const bodyParser = require('body-parser');
 
@@ -36,6 +40,11 @@ class Server{
         this.app.use(this.cors);
         this.app.use('/api/auth', AUTH_ROUTER);
         this.app.use('/api/liga', LIGA_ROUTER);
+        this.app.use('/api/temporada', TEMPORADA_ROUTER);
+        this.app.use('/api/equipo', EQUIPO_ROUTER);
+        this.app.use('/api/jornada', JORNADA_ROUTER);
+        this.app.use('/api/partido', PARTIDO_ROUTER);
+        this.app.use('/api/resultado', RESULTADO_ROUTER);
     }
 
     start() : void {

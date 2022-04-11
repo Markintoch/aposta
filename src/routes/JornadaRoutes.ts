@@ -1,5 +1,5 @@
 import { Router } from 'express';
-/* import { DataController } from '../controllers/DataController'; */
+import { JornadaController } from '../controllers/JornadaController';
 
 class JornadaRouter{
 
@@ -10,11 +10,11 @@ class JornadaRouter{
     }
 
     config() : void {
-        this.router.post('/create');
-        this.router.post('/update');
-        this.router.get('/delete/:id');
-        this.router.get('/get/:id');
-        this.router.get('/list');
+        this.router.post('/create', JornadaController.createJornada.bind(JornadaController));
+        this.router.post('/update', JornadaController.updateJornada.bind(JornadaController));
+        this.router.get('/delete/:id', JornadaController.deleteTemporada.bind(JornadaController));
+        this.router.get('/get/:id', JornadaController.getJornada.bind(JornadaController));
+        this.router.get('/list/:id', JornadaController.getJornadaByTemporada.bind(JornadaController));
     }
 
 }

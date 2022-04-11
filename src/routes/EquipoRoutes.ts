@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { EquipoController } from '../controllers/EquipoController';
 /* import { DataController } from '../controllers/DataController'; */
 
 class EquipoRouter{
@@ -10,11 +11,11 @@ class EquipoRouter{
     }
 
     config() : void {
-        this.router.post('/create');
-        this.router.post('/update');
-        this.router.get('/delete/:id');
-        this.router.get('/get/:id');
-        this.router.get('/list');
+        this.router.post('/create', EquipoController.createEquipo.bind(EquipoController));
+        this.router.post('/update', EquipoController.updateEquipo.bind(EquipoController));
+        this.router.get('/delete/:id', EquipoController.deleteEquipo.bind(EquipoController));
+        this.router.get('/get/:id', EquipoController.getEquipo.bind(EquipoController));
+        this.router.get('/list/:id', EquipoController.getEquiposByTemporada.bind(EquipoController));
     }
 
 }

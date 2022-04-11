@@ -1,5 +1,5 @@
 import { Router } from 'express';
-/* import { DataController } from '../controllers/DataController'; */
+import { PartidoController } from '../controllers/PartidoController';
 
 class PartidoRouter{
 
@@ -10,11 +10,11 @@ class PartidoRouter{
     }
 
     config() : void {
-        this.router.post('/create');
-        this.router.post('/update');
-        this.router.get('/delete/:id');
-        this.router.get('/get/:id');
-        this.router.get('/list');
+        this.router.post('/create', PartidoController.createPartido.bind(PartidoController));
+        this.router.post('/update', PartidoController.updatePartido.bind(PartidoController));
+        this.router.get('/delete/:id', PartidoController.deletePartido.bind(PartidoController));
+        this.router.get('/get/:id', PartidoController.getPartido.bind(PartidoController));
+        this.router.get('/list/:id', PartidoController.getPartidosByJornada.bind(PartidoController));
     }
 
 }

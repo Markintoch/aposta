@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const EquipoController_1 = require("../controllers/EquipoController");
 /* import { DataController } from '../controllers/DataController'; */
 class EquipoRouter {
     constructor() {
@@ -8,11 +9,11 @@ class EquipoRouter {
         this.config();
     }
     config() {
-        this.router.post('/create');
-        this.router.post('/update');
-        this.router.get('/delete/:id');
-        this.router.get('/get/:id');
-        this.router.get('/list');
+        this.router.post('/create', EquipoController_1.EquipoController.createEquipo.bind(EquipoController_1.EquipoController));
+        this.router.post('/update', EquipoController_1.EquipoController.updateEquipo.bind(EquipoController_1.EquipoController));
+        this.router.get('/delete/:id', EquipoController_1.EquipoController.deleteEquipo.bind(EquipoController_1.EquipoController));
+        this.router.get('/get/:id', EquipoController_1.EquipoController.getEquipo.bind(EquipoController_1.EquipoController));
+        this.router.get('/list/:id', EquipoController_1.EquipoController.getEquiposByTemporada.bind(EquipoController_1.EquipoController));
     }
 }
 const EQUIPO_ROUTER = new EquipoRouter();

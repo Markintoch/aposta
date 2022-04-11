@@ -9,16 +9,16 @@ const Email_1 = require("./Email");
 const GeneralController_1 = require("./GeneralController");
 const crypto = require('crypto');
 const connection = new pg_1.Client({
-    /*/
+    //*/
     user: 'dev',
     host: process.env.DB_HOST,
     database: 'aposta',
     password: 'test1205',
     port: Number(process.env.DB_PORT),
     /*/
-    user: 'postgres',
-    database: 'aposta',
-    password: '1205',
+    user : 'postgres',
+    database : 'aposta',
+    password : '1205',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     //*/
@@ -94,19 +94,24 @@ class Database {
     }
     async getDataByEmail(email) {
     }
-    async insertLiga(nombre, path_img) {
-        let updateData = [nombre, path_img];
-        let updateQuery = "INSERT INTO ligas( nombre, logo ) VALUES($1, $2)";
+    async insertLiga(nombre, path_img, activo) {
+        let updateData = [nombre, path_img, activo];
+        let updateQuery = "INSERT INTO ligas( nombre, logo, active ) VALUES($1, $2, $3)";
         await this.runQueryAsync(updateQuery, updateData).catch((error) => { throw new Error(messages_1.Messages.LIGA_INSERT_ERROR); });
     }
-    async updateLiga(id, nombre, path_img) {
-        let updateData = [id, nombre, path_img];
-        let updateQuery = "UPDATE ligas SET nombre = $2, logo = $3 WHERE liga_id = $1";
+    async updateLiga(id, nombre, path_img, activo) {
+        let updateData = [id, nombre, path_img, activo];
+        let updateQuery = "UPDATE ligas SET nombre = $2, logo = $3, active = $4 WHERE liga_id = $1";
         await this.runQueryAsync(updateQuery, updateData).catch((error) => { throw new Error(messages_1.Messages.QUERY_UPDATE_ERROR); });
     }
     async deleteLiga(id) {
         let deleteData = [id];
         let deleteQuery = "DELETE FROM ligas where liga_id = $1";
+        await this.runQueryAsync(deleteQuery, deleteData).catch((error) => { throw new Error(messages_1.Messages.QUERY_DELETE_ERROR); });
+    }
+    async deleteById(tabla, atributo, atributo_id) {
+        let deleteData = [atributo_id];
+        let deleteQuery = "DELETE FROM " + tabla + " WHERE " + atributo + " = $1";
         await this.runQueryAsync(deleteQuery, deleteData).catch((error) => { throw new Error(messages_1.Messages.QUERY_DELETE_ERROR); });
     }
     async simpleSelectById(tabla, atributo, atributo_id) {
@@ -117,6 +122,18 @@ class Database {
             return null;
         }
         return selectResult.rows;
+    }
+    async simpleInsert(tabla, atributos, valores) {
+        let insetData = valores;
+        let queryValues = GeneralController_1.GeneralController.generateDatabaseQueryParam(valores.length);
+        let insetQuery = `INSERT INTO ${tabla} ( ${atributos} ) VALUES ( ${queryValues} )`;
+        await this.runQueryAsync(insetQuery, insetData).catch((error) => { throw new Error(messages_1.Messages.LIGA_INSERT_ERROR); });
+    }
+    async simpleUpdateWithCondition(tabla, atributos, valores, condicion) {
+        let updateData = valores;
+        let queryAtributos = GeneralController_1.GeneralController.generateDatabaseQueryUpdateAtt(atributos);
+        let updateQuery = `UPDATE ${tabla} ${queryAtributos} ${condicion}`;
+        await this.runQueryAsync(updateQuery, updateData).catch((error) => { throw new Error(messages_1.Messages.QUERY_UPDATE_ERROR); });
     }
     //agregar a la tabla el campo de activo
     async selectAll(tabla) {

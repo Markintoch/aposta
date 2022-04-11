@@ -66,7 +66,7 @@ class Temporada {
 
     async updateTemporada( request : Request, response : Response ){
         try{
-            let temporada_id : any = request.body.tempoarada_id;
+            let temporada_id : any = request.body.temporada_id;
             let liga_id : any  = request.body.liga_id;
             let nombre_temporada : string = request.body.nombre;
             let numero_tempoarada : any = request.body.numero;

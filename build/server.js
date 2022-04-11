@@ -4,11 +4,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const messages_1 = require("./util/messages");
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
+const cors_1 = __importDefault(require("cors"));
 const AuthRoutes_1 = __importDefault(require("./routes/AuthRoutes"));
 const LigaRoutes_1 = __importDefault(require("./routes/LigaRoutes"));
-const messages_1 = require("./util/messages");
-const cors_1 = __importDefault(require("cors"));
-const express_fileupload_1 = __importDefault(require("express-fileupload"));
+const TemporadaRoutes_1 = __importDefault(require("./routes/TemporadaRoutes"));
+const EquipoRoutes_1 = __importDefault(require("./routes/EquipoRoutes"));
+const JornadaRoutes_1 = __importDefault(require("./routes/JornadaRoutes"));
+const PartidoRoutes_1 = __importDefault(require("./routes/PartidoRoutes"));
+const ResultadoRoutes_1 = __importDefault(require("./routes/ResultadoRoutes"));
 const bodyParser = require('body-parser');
 require('dotenv').config();
 class Server {
@@ -29,6 +34,11 @@ class Server {
         this.app.use(this.cors);
         this.app.use('/api/auth', AuthRoutes_1.default);
         this.app.use('/api/liga', LigaRoutes_1.default);
+        this.app.use('/api/temporada', TemporadaRoutes_1.default);
+        this.app.use('/api/equipo', EquipoRoutes_1.default);
+        this.app.use('/api/jornada', JornadaRoutes_1.default);
+        this.app.use('/api/partido', PartidoRoutes_1.default);
+        this.app.use('/api/resultado', ResultadoRoutes_1.default);
     }
     start() {
         let port = this.app.get('port');

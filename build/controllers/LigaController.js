@@ -38,6 +38,7 @@ class Liga {
                 throw new Error(messages_1.Messages.IMG_ISREQUIRED);
             }
             let nombre_liga = request.body.nombre;
+            let activo = request.body.activo;
             let logo = request.files.logo;
             if (nombre_liga == undefined || nombre_liga == null || nombre_liga.trim() == '') {
                 throw new Error(messages_1.Messages.NOMBRE_LIGA_ISREQUIRED);
@@ -48,7 +49,7 @@ class Liga {
             let ext = path_dir.extname(logo.name);
             let path = path_logo + new Date().getTime() + ext;
             logo.mv(path);
-            await Database_1.DatabaseController.insertLiga(nombre_liga, path);
+            await Database_1.DatabaseController.insertLiga(nombre_liga, path, activo);
             let body = { status: 200, message: messages_1.Messages.SUCCESS_INSERT, data: null };
             response.json(body);
         }
@@ -64,6 +65,7 @@ class Liga {
             }
             let id_liga = request.body.id;
             let nombre_liga = request.body.nombre;
+            let activo = request.body.activo;
             let logo = request.files.logo;
             if (id_liga == undefined || id_liga == null) {
                 throw new Error(messages_1.Messages.ID_ISREQUIRED);
@@ -77,7 +79,7 @@ class Liga {
             let ext = path_dir.extname(logo.name);
             let path = path_logo + new Date().getTime() + ext;
             logo.mv(path);
-            await Database_1.DatabaseController.updateLiga(id_liga, nombre_liga, path);
+            await Database_1.DatabaseController.updateLiga(id_liga, nombre_liga, path, activo);
             let body = { status: 200, message: messages_1.Messages.SUCCESS_UPDATE, data: null };
             response.json(body);
         }

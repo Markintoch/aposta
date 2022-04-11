@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const TemporadaController_1 = require("../controllers/TemporadaController");
 /* import { DataController } from '../controllers/DataController'; */
 class TemporadaRouter {
     constructor() {
@@ -8,11 +9,11 @@ class TemporadaRouter {
         this.config();
     }
     config() {
-        this.router.post('/create');
-        this.router.post('/update');
-        this.router.get('/delete/:id');
-        this.router.get('/get/:id');
-        this.router.get('/list');
+        this.router.post('/create', TemporadaController_1.TemporadaController.createTemporada.bind(TemporadaController_1.TemporadaController));
+        this.router.post('/update', TemporadaController_1.TemporadaController.updateTemporada.bind(TemporadaController_1.TemporadaController));
+        this.router.delete('/delete/:id', TemporadaController_1.TemporadaController.deleteTemporada.bind(TemporadaController_1.TemporadaController));
+        this.router.get('/get/:id', TemporadaController_1.TemporadaController.getTemporada.bind(TemporadaController_1.TemporadaController));
+        this.router.get('/list/:id', TemporadaController_1.TemporadaController.getTemporadasByLiga.bind(TemporadaController_1.TemporadaController));
     }
 }
 const TEMPORADA_ROUTER = new TemporadaRouter();

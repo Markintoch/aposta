@@ -1,5 +1,9 @@
 const crypto = require('crypto');
 
+const path_dir = require('path');
+
+const path_logo = 'media/logo_';
+
 class General {
 
     generateHash( password : string ){
@@ -30,6 +34,13 @@ class General {
             else{ queryParams += `${atributos[i - 1]} + $${i},`; }
         }
         return queryParams;
+    }
+
+    saveFile( file : any ){
+        let ext = path_dir.extname(file.name);
+        let final_path = path_logo + new Date().getTime()+ext;
+        file.mv(final_path);
+        return final_path;
     }
 
 
