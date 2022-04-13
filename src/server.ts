@@ -12,6 +12,9 @@ import PARTIDO_ROUTER from './routes/PartidoRoutes';
 import RESULTADO_ROUTER from './routes/ResultadoRoutes';
 
 const bodyParser = require('body-parser');
+const path = require('path');
+
+const mediaPath = path.join(__dirname,'../media');
 
 require('dotenv').config()
 
@@ -45,6 +48,8 @@ class Server{
         this.app.use('/api/jornada', JORNADA_ROUTER);
         this.app.use('/api/partido', PARTIDO_ROUTER);
         this.app.use('/api/resultado', RESULTADO_ROUTER);
+
+        this.app.use('/media',express.static(mediaPath));
     }
 
     start() : void {

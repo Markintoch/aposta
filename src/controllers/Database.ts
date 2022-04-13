@@ -9,7 +9,7 @@ import { GeneralController } from './GeneralController';
 const crypto = require('crypto');
 
 const connection = new Client({
-    //*/
+    /*/
     user: 'dev',
     host: process.env.DB_HOST,
     database: 'aposta',

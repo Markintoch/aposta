@@ -9,16 +9,16 @@ const Email_1 = require("./Email");
 const GeneralController_1 = require("./GeneralController");
 const crypto = require('crypto');
 const connection = new pg_1.Client({
-    //*/
+    /*/
     user: 'dev',
     host: process.env.DB_HOST,
     database: 'aposta',
     password: 'test1205',
     port: Number(process.env.DB_PORT),
     /*/
-    user : 'postgres',
-    database : 'aposta',
-    password : '1205',
+    user: 'postgres',
+    database: 'aposta',
+    password: '1205',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     //*/

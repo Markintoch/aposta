@@ -15,6 +15,8 @@ const JornadaRoutes_1 = __importDefault(require("./routes/JornadaRoutes"));
 const PartidoRoutes_1 = __importDefault(require("./routes/PartidoRoutes"));
 const ResultadoRoutes_1 = __importDefault(require("./routes/ResultadoRoutes"));
 const bodyParser = require('body-parser');
+const path = require('path');
+const mediaPath = path.join(__dirname, '../media');
 require('dotenv').config();
 class Server {
     constructor() {
@@ -39,6 +41,7 @@ class Server {
         this.app.use('/api/jornada', JornadaRoutes_1.default);
         this.app.use('/api/partido', PartidoRoutes_1.default);
         this.app.use('/api/resultado', ResultadoRoutes_1.default);
+        this.app.use('/media', express_1.default.static(mediaPath));
     }
     start() {
         let port = this.app.get('port');
