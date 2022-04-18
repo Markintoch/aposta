@@ -10,6 +10,7 @@ import EQUIPO_ROUTER from './routes/EquipoRoutes';
 import JORNADA_ROUTER from './routes/JornadaRoutes';
 import PARTIDO_ROUTER from './routes/PartidoRoutes';
 import RESULTADO_ROUTER from './routes/ResultadoRoutes';
+import PRONOSTICO_ROUTER from './routes/PronosticoRoutes';
 
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -48,6 +49,7 @@ class Server{
         this.app.use('/api/jornada', JORNADA_ROUTER);
         this.app.use('/api/partido', PARTIDO_ROUTER);
         this.app.use('/api/resultado', RESULTADO_ROUTER);
+        this.app.use('/api/pronostico', PRONOSTICO_ROUTER);
 
         this.app.use('/media',express.static(mediaPath));
     }

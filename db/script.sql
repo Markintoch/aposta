@@ -69,3 +69,10 @@ CREATE TABLE IF NOT EXISTS resultados(
 	marcador_visitante int NOT NULL, 
 	ganador_id int NOT NULL
 )
+
+CREATE TABLE IF NOT EXISTS pronosticos(
+	pronostico_id serial PRIMARY KEY,
+	partido_id int NOT NULL references partidos(partido_id),
+	ganador_id int NOT NULL,
+	created_on date
+)

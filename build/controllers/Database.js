@@ -21,7 +21,13 @@ const connection = new pg_1.Client({
     password: '1205',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
-    //*/
+    /*/
+    user : 'postgres',
+    database : 'aposta',
+    password : 'pegasso1',
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),
+    /*/
 }); //Checar porque no me reconoce los parametros.
 class Database {
     constructor() {
@@ -136,9 +142,10 @@ class Database {
     }
     async simpleUpdateWithCondition(tabla, atributos, valores, condicion) {
         let updateData = valores;
-        let queryAtributos = GeneralController_1.GeneralController.generateDatabaseQueryParam(atributos);
-        let updateQuery = `UPDATE ${tabla} ${queryAtributos} ${condicion}`;
-        await this.runQueryAsync(updateQuery, updateData).catch((error) => { throw new Error(messages_1.Messages.QUERY_UPDATE_ERROR); });
+        let queryAtributos = GeneralController_1.GeneralController.generateDatabaseQueryUpdateAtt(atributos);
+        let updateQuery = `UPDATE ${tabla} SET ${queryAtributos} WHERE ${condicion}`;
+        console.log(updateQuery);
+        await this.runQueryAsync(updateQuery, updateData).catch((error) => { console.log(error); throw new Error(messages_1.Messages.QUERY_UPDATE_ERROR); });
     }
     //agregar a la tabla el campo de activo
     async selectAll(tabla) {

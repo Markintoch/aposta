@@ -37,5 +37,6 @@ export enum Messages{
     QUERY_SELECT_ERROR = "Error al obtener el registro solicitado, contacte al administrado",
     SUCCESS_INSERT = "Registro hecho con exito",
     SUCCESS_UPDATE = "Registro actualizado con exito",
-    SUCCESS_DELETE = "Registro eliminado con exito"
+    SUCCESS_DELETE = "Registro eliminado con exito",
+    CANNOT_SEND_PRONOSTICO = "El pronostico no puede ser enviado ya que la jornada esta proxima a comenzar",
 }

@@ -81,15 +81,12 @@ class Equipo {
     }
     async updateEquipo(request, response) {
         try {
-            if (!request.files) {
-                throw new Error(messages_1.Messages.IMG_ISREQUIRED);
-            }
             let equipo_id = request.body.equipo_id;
             let liga_id = request.body.liga_id;
             let id_temporada = request.body.temporada_id;
             let nombre_equipo = request.body.nombre;
             let activo = request.body.activo;
-            let logo = request.files.logo;
+            let path = request.body.logo;
             if (equipo_id == undefined || equipo_id == null) {
                 throw new Error(messages_1.Messages.ID_ISREQUIRED);
             }
@@ -102,11 +99,11 @@ class Equipo {
             if (nombre_equipo == undefined || nombre_equipo == null || nombre_equipo.trim() == '') {
                 throw new Error(messages_1.Messages.NOMBRE_EQUIPO_ISREQUIRED);
             }
-            if (logo == undefined || logo == null || logo.length == 0) {
-                throw new Error(messages_1.Messages.IMG_ISREQUIRED);
+            if (request.files) {
+                let logo = request.files.logo;
+                path = GeneralController_1.GeneralController.saveFile(logo);
             }
-            let path_logo = GeneralController_1.GeneralController.saveFile(logo);
-            let updateData = [liga_id, id_temporada, nombre_equipo, path_logo, activo];
+            let updateData = [liga_id, id_temporada, nombre_equipo, path, activo];
             await Database_1.DatabaseController.simpleUpdateWithCondition("equipos", ["liga_id", "temporada_id", "nombre", "logo", "activo"], updateData, `equipo_id = ${equipo_id}`);
             let body = { status: 200, message: messages_1.Messages.SUCCESS_UPDATE, data: null };
             response.json(body);

@@ -41,4 +41,5 @@ var Messages;
     Messages["SUCCESS_INSERT"] = "Registro hecho con exito";
     Messages["SUCCESS_UPDATE"] = "Registro actualizado con exito";
     Messages["SUCCESS_DELETE"] = "Registro eliminado con exito";
+    Messages["CANNOT_SEND_PRONOSTICO"] = "El pronostico no puede ser enviado ya que la jornada esta proxima a comenzar";
 })(Messages = exports.Messages || (exports.Messages = {}));

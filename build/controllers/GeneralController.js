@@ -26,17 +26,16 @@ class General {
         // return queryParams;
     }
     generateDatabaseQueryUpdateAtt(atributos) {
-        let queryParams = '';
-        let count = atributos.length;
-        for (let i = 1; i == count; i++) {
-            if (i == count) {
-                queryParams += `${atributos[i - 1]} + $${i}`;
-            }
-            else {
-                queryParams += `${atributos[i - 1]} + $${i},`;
-            }
+        return atributos.map((valor, key) => {
+            return `${valor} = $${key + 1}`;
+        });
+        /* let queryParams = '';
+        let count = atributos.length
+        for(let i = 1; i == count; i++){
+            if( i == count ){ queryParams += `${atributos[i - 1]} + $${i}`; }
+            else{ queryParams += `${atributos[i - 1]} + $${i},`; }
         }
-        return queryParams;
+        return queryParams; */
     }
     saveFile(file) {
         let ext = path_dir.extname(file.name);

@@ -14,6 +14,7 @@ const EquipoRoutes_1 = __importDefault(require("./routes/EquipoRoutes"));
 const JornadaRoutes_1 = __importDefault(require("./routes/JornadaRoutes"));
 const PartidoRoutes_1 = __importDefault(require("./routes/PartidoRoutes"));
 const ResultadoRoutes_1 = __importDefault(require("./routes/ResultadoRoutes"));
+const PronosticoRoutes_1 = __importDefault(require("./routes/PronosticoRoutes"));
 const bodyParser = require('body-parser');
 const path = require('path');
 const mediaPath = path.join(__dirname, '../media');
@@ -41,6 +42,7 @@ class Server {
         this.app.use('/api/jornada', JornadaRoutes_1.default);
         this.app.use('/api/partido', PartidoRoutes_1.default);
         this.app.use('/api/resultado', ResultadoRoutes_1.default);
+        this.app.use('/api/pronostico', PronosticoRoutes_1.default);
         this.app.use('/media', express_1.default.static(mediaPath));
     }
     start() {

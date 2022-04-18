@@ -30,13 +30,16 @@ class General {
     }
 
     generateDatabaseQueryUpdateAtt( atributos : string [] ){
-        let queryParams = '';
+        return atributos.map( (valor : any , key : any ) => {
+            return `${valor} = $${key+1}`;
+        })
+        /* let queryParams = '';
         let count = atributos.length
         for(let i = 1; i == count; i++){ 
             if( i == count ){ queryParams += `${atributos[i - 1]} + $${i}`; }
             else{ queryParams += `${atributos[i - 1]} + $${i},`; }
         }
-        return queryParams;
+        return queryParams; */
     }
 
     saveFile( file : any ){
