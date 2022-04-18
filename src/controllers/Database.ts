@@ -18,7 +18,7 @@ const connection = new Client({
     /*/
     user : 'postgres',
     database : 'aposta', 
-    password : '1205',
+    password : 'pegasso1',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     //*/
@@ -112,14 +112,21 @@ class Database {
 
     async simpleInsert( tabla : string, atributos : string, valores : any[] ){
         let insetData : any[] = valores;
-        let queryValues : string = GeneralController.generateDatabaseQueryParam(valores.length);
+        let queryValues : string = GeneralController.generateDatabaseQueryParam(valores);
+
+        console.log(valores, queryValues , 'something else')
+
         let insetQuery = `INSERT INTO ${tabla} ( ${atributos} ) VALUES ( ${queryValues} )`;
-        await this.runQueryAsync( insetQuery, insetData ).catch( (error : any) => { throw new Error(Messages.LIGA_INSERT_ERROR)} );
+        console.log(insetQuery)
+        await this.runQueryAsync( insetQuery, insetData ).catch( (error : any) => { 
+            console.log(error)
+            throw new Error(Messages.LIGA_INSERT_ERROR)}
+             );
     }
 
     async simpleUpdateWithCondition( tabla : string, atributos : string[], valores : any[], condicion : string ){
         let updateData = valores;
-        let queryAtributos = GeneralController.generateDatabaseQueryUpdateAtt(atributos)
+        let queryAtributos = GeneralController.generateDatabaseQueryParam(atributos)
         let updateQuery =`UPDATE ${tabla} ${queryAtributos} ${condicion}`;
         await this.runQueryAsync( updateQuery, updateData ).catch( (error : any) => { throw new Error(Messages.QUERY_UPDATE_ERROR)} );
     }

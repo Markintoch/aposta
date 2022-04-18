@@ -13,6 +13,7 @@ class JornadaRouter {
         this.router.get('/delete/:id', JornadaController_1.JornadaController.deleteTemporada.bind(JornadaController_1.JornadaController));
         this.router.get('/get/:id', JornadaController_1.JornadaController.getJornada.bind(JornadaController_1.JornadaController));
         this.router.get('/list/:id', JornadaController_1.JornadaController.getJornadaByTemporada.bind(JornadaController_1.JornadaController));
+        this.router.get('/list', JornadaController_1.JornadaController.getJornadas.bind(JornadaController_1.JornadaController));
     }
 }
 const JORNADA_ROUTER = new JornadaRouter();

@@ -34,6 +34,17 @@ class Jornada {
             response.status(400).send(errorBody);
         }
     }
+    async getJornadas(request, response) {
+        try {
+            let resultQuery = await Database_1.DatabaseController.selectAll("jornadas");
+            let body = { status: 200, data: resultQuery };
+            response.json(body);
+        }
+        catch (error) {
+            let errorBody = { error: error.message };
+            response.status(400).send(errorBody);
+        }
+    }
     async createJornada(request, response) {
         try {
             let liga_id = request.body.liga_id;

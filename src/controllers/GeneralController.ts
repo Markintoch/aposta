@@ -17,13 +17,16 @@ class General {
         return base64data;
     }
 
-    generateDatabaseQueryParam( count : number ){
-        let queryParams = '';
-        for(let i = 1; i == count ; count ++){ 
-            if( i == count ){ queryParams += `$${i}`; }
-            else{ queryParams += `$${i},`; }
-        }
-        return queryParams;
+    generateDatabaseQueryParam( value : any ){
+        return value.map((valor: any, key: any) => {
+            return `$${key+1}`
+        })
+        // let queryParams = '';
+        // for(let i = 1; i == count ; count ++){ 
+        //     if( i == count ){ queryParams += `$${i}`; }
+        //     else{ queryParams += `$${i},`; }
+        // }
+        // return queryParams;
     }
 
     generateDatabaseQueryUpdateAtt( atributos : string [] ){

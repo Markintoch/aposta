@@ -19,6 +19,17 @@ class Partido {
             response.status(400).send(errorBody);
         }
     }
+    async getPartidos(request, response) {
+        try {
+            let resultQuery = await Database_1.DatabaseController.selectAll("partidos");
+            let body = { status: 200, data: resultQuery };
+            response.json(body);
+        }
+        catch (error) {
+            let errorBody = { error: error.message };
+            response.status(400).send(errorBody);
+        }
+    }
     async getPartidosByJornada(request, response) {
         try {
             let jornada_id = request.params.id;
@@ -41,7 +52,7 @@ class Partido {
             let jornada_id = request.body.jornada_id;
             let vistante_id = request.body.vistante_id;
             let local_id = request.body.local_id;
-            let jornada_original = request.body.f_fin;
+            let jornada_original = request.body.jornada_original;
             if (liga_id == undefined || liga_id == null) {
                 throw new Error(messages_1.Messages.LIGA_ID_ISREQUIRED);
             }

@@ -14,6 +14,7 @@ class EquipoRouter {
         this.router.get('/delete/:id', EquipoController_1.EquipoController.deleteEquipo.bind(EquipoController_1.EquipoController));
         this.router.get('/get/:id', EquipoController_1.EquipoController.getEquipo.bind(EquipoController_1.EquipoController));
         this.router.get('/list/:id', EquipoController_1.EquipoController.getEquiposByTemporada.bind(EquipoController_1.EquipoController));
+        this.router.get('/list', EquipoController_1.EquipoController.getEquipos.bind(EquipoController_1.EquipoController));
     }
 }
 const EQUIPO_ROUTER = new EquipoRouter();

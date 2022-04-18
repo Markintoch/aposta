@@ -14,17 +14,16 @@ class General {
         let base64data = buff.toString('base64');
         return base64data;
     }
-    generateDatabaseQueryParam(count) {
-        let queryParams = '';
-        for (let i = 1; i == count; count++) {
-            if (i == count) {
-                queryParams += `$${i}`;
-            }
-            else {
-                queryParams += `$${i},`;
-            }
-        }
-        return queryParams;
+    generateDatabaseQueryParam(value) {
+        return value.map((valor, key) => {
+            return `$${key + 1}`;
+        });
+        // let queryParams = '';
+        // for(let i = 1; i == count ; count ++){ 
+        //     if( i == count ){ queryParams += `$${i}`; }
+        //     else{ queryParams += `$${i},`; }
+        // }
+        // return queryParams;
     }
     generateDatabaseQueryUpdateAtt(atributos) {
         let queryParams = '';

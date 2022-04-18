@@ -35,6 +35,17 @@ class Equipo {
             response.status(400).send(errorBody);
         }
     }
+    async getEquipos(request, response) {
+        try {
+            let resultQuery = await Database_1.DatabaseController.selectAll("equipos");
+            let body = { status: 200, data: resultQuery };
+            response.json(body);
+        }
+        catch (error) {
+            let errorBody = { error: error.message };
+            response.status(400).send(errorBody);
+        }
+    }
     async createEquipo(request, response) {
         try {
             if (!request.files) {

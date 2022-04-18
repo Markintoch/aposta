@@ -15,6 +15,7 @@ class PartidoRouter{
         this.router.get('/delete/:id', PartidoController.deletePartido.bind(PartidoController));
         this.router.get('/get/:id', PartidoController.getPartido.bind(PartidoController));
         this.router.get('/list/:id', PartidoController.getPartidosByJornada.bind(PartidoController));
+        this.router.get('/list', PartidoController.getPartidos.bind(PartidoController));
     }
 
 }

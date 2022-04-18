@@ -125,13 +125,18 @@ class Database {
     }
     async simpleInsert(tabla, atributos, valores) {
         let insetData = valores;
-        let queryValues = GeneralController_1.GeneralController.generateDatabaseQueryParam(valores.length);
+        let queryValues = GeneralController_1.GeneralController.generateDatabaseQueryParam(valores);
+        console.log(valores, queryValues, 'something else');
         let insetQuery = `INSERT INTO ${tabla} ( ${atributos} ) VALUES ( ${queryValues} )`;
-        await this.runQueryAsync(insetQuery, insetData).catch((error) => { throw new Error(messages_1.Messages.LIGA_INSERT_ERROR); });
+        console.log(insetQuery);
+        await this.runQueryAsync(insetQuery, insetData).catch((error) => {
+            console.log(error);
+            throw new Error(messages_1.Messages.LIGA_INSERT_ERROR);
+        });
     }
     async simpleUpdateWithCondition(tabla, atributos, valores, condicion) {
         let updateData = valores;
-        let queryAtributos = GeneralController_1.GeneralController.generateDatabaseQueryUpdateAtt(atributos);
+        let queryAtributos = GeneralController_1.GeneralController.generateDatabaseQueryParam(atributos);
         let updateQuery = `UPDATE ${tabla} ${queryAtributos} ${condicion}`;
         await this.runQueryAsync(updateQuery, updateData).catch((error) => { throw new Error(messages_1.Messages.QUERY_UPDATE_ERROR); });
     }

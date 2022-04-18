@@ -31,6 +31,17 @@ class Equipo {
         }
     }
 
+    async getEquipos ( request : Request, response : Response ){
+        try{
+            let resultQuery = await DatabaseController.selectAll( "equipos");
+            let body = { status : 200, data : resultQuery };
+            response.json(body);
+        }catch(error : any ){
+            let errorBody = { error : error.message };
+            response.status(400).send(errorBody);
+        }
+    }
+
     async createEquipo( request : Request, response : Response ){
         try{
             if(!request.files){ throw new Error(Messages.IMG_ISREQUIRED); }
