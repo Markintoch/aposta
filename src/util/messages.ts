@@ -5,6 +5,7 @@ export enum Messages{
     NOMBRE_ISREQUIRED = "El nombre es requerido para completar el registro",
     USERNAME_ISREQUIRED = "El username es requerido para completar el registro",
     PASSWORD_ISREQUIRED = "El password es requerido para completar el registro",
+    USER_ID_ISREQUIRED = "El id de usuario es requerido",
     EMAIL_ISREQUIRED = "El correo es requerido para completar el registro",
     ERROR_INSERT_NEW_USER = "Error al insertar el nuevo usuario",
     USERNAME_ALREADY_EXIST = "Ya existe un usuario con este username",

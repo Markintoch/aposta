@@ -11,10 +11,11 @@ class PronosticoRouter{
 
     config() : void {
         this.router.post('/create', PronosticoController.createPronostico.bind(PronosticoController));
-        /* this.router.post('/update', PronosticoController.updateResultado.bind(PronosticoController));
-        this.router.get('/delete/:id', PronosticoController.deleteResultado.bind(PronosticoController));
-        this.router.get('/get/:id', PronosticoController.getResultado.bind(PronosticoController)); */
-        /* this.router.get('/list/:id', ResultadoController.getPartidosByJornada.bind(ResultadoController)); */
+        this.router.post('/create-multiple', PronosticoController.createPronosticos.bind(PronosticoController));
+        this.router.post('/update', PronosticoController.updatePronostico.bind(PronosticoController));
+        this.router.post('/update-multiple', PronosticoController.updatePronosticos.bind(PronosticoController));
+        this.router.get('/get/:id', PronosticoController.getPronostico.bind(PronosticoController));
+        this.router.get('/get-by-jornada/:id/:user_id', PronosticoController.getPronosticosByJornada.bind(PronosticoController));
     }
 
 }

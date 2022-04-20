@@ -147,6 +147,14 @@ class Database {
         console.log(updateQuery);
         await this.runQueryAsync(updateQuery, updateData).catch((error) => { console.log(error); throw new Error(messages_1.Messages.QUERY_UPDATE_ERROR); });
     }
+    async selectByJoin(atributos, tabla, tabla_join, relacion, condicion) {
+        let selectQuery = `SELECT ${atributos} FROM ${tabla} INNER JOIN ${tabla_join} on ${relacion} WHERE ${condicion}`;
+        let selectResult = await this.runQueryAsync(selectQuery, null).catch((error) => { throw new Error(messages_1.Messages.QUERY_SELECT_ERROR); });
+        if (!selectResult.rows.length) {
+            return null;
+        }
+        return selectResult.rows;
+    }
     //agregar a la tabla el campo de activo
     async selectAll(tabla) {
         let selectQuery = "SELECT * FROM " + tabla;

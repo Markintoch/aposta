@@ -72,6 +72,7 @@ CREATE TABLE IF NOT EXISTS resultados(
 
 CREATE TABLE IF NOT EXISTS pronosticos(
 	pronostico_id serial PRIMARY KEY,
+	user_id int NOT NULL,
 	partido_id int NOT NULL references partidos(partido_id),
 	ganador_id int NOT NULL,
 	created_on date

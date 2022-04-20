@@ -8,6 +8,37 @@ const messages_1 = require("../util/messages");
 const Database_1 = require("../controllers/Database");
 const moment_1 = __importDefault(require("moment"));
 class Pronostico {
+    async getPronosticosByJornada(request, response) {
+        try {
+            let jornada_id = request.params.id;
+            let user_id = request.params.user_id;
+            if (jornada_id == undefined || jornada_id == null) {
+                throw new Error(messages_1.Messages.ID_ISREQUIRED);
+            }
+            let resultQuery = await Database_1.DatabaseController.selectByJoin("p.*", "pronosticos p", "partidos par", "p.partido_id = par.partido_id", `par.jornada_id = ${jornada_id} AND p.user_id = ${user_id}`);
+            let body = { status: 200, data: resultQuery };
+            response.json(body);
+        }
+        catch (error) {
+            let errorBody = { error: error.message };
+            response.status(400).send(errorBody);
+        }
+    }
+    async getPronostico(request, response) {
+        try {
+            let pronostico_id = request.params.id;
+            if (pronostico_id == undefined || pronostico_id == null) {
+                throw new Error(messages_1.Messages.ID_ISREQUIRED);
+            }
+            let resultQuery = await Database_1.DatabaseController.simpleSelectById("pronosticos", "pronostico_id", pronostico_id);
+            let body = { status: 200, data: resultQuery };
+            response.json(body);
+        }
+        catch (error) {
+            let errorBody = { error: error.message };
+            response.status(400).send(errorBody);
+        }
+    }
     async createPronostico(request, response) {
         try {
             await this.createPronosticoNoRest(request.body);
@@ -33,10 +64,39 @@ class Pronostico {
             response.status(400).send(errorBody);
         }
     }
+    async updatePronostico(request, response) {
+        try {
+            await this.updatePronosticoNoRest(request.body);
+            let body = { status: 200, message: messages_1.Messages.SUCCESS_UPDATE, data: null };
+            response.json(body);
+        }
+        catch (error) {
+            let errorBody = { error: error.message };
+            response.status(400).send(errorBody);
+        }
+    }
+    async updatePronosticos(request, response) {
+        try {
+            let pronosticos = request.body.pronosticos;
+            for (let pronostico of pronosticos) {
+                await this.updatePronosticoNoRest(pronostico);
+            }
+            let body = { status: 200, message: messages_1.Messages.SUCCESS_UPDATE, data: null };
+            response.json(body);
+        }
+        catch (error) {
+            let errorBody = { error: error.message };
+            response.status(400).send(errorBody);
+        }
+    }
     async createPronosticoNoRest(pronostico) {
+        let user_id = pronostico.user_id;
         let partido_id = pronostico.partido_id;
         let ganador_id = pronostico.ganador_id;
         let created_on = new Date();
+        if (user_id == undefined || user_id == null) {
+            throw new Error(messages_1.Messages.USER_ID_ISREQUIRED);
+        }
         if (partido_id == undefined || partido_id == null) {
             throw new Error(messages_1.Messages.PARTIDO_ID_ISREQUIRED);
         }
@@ -44,8 +104,29 @@ class Pronostico {
             throw new Error(messages_1.Messages.GANADOR_ID_ISREQUIRED);
         }
         if (await this.canSendPronostico(partido_id)) {
-            let insertData = [partido_id, ganador_id, created_on];
-            await Database_1.DatabaseController.simpleInsert("pronosticos", "partido_id, ganador_id, created_on", insertData);
+            let insertData = [user_id, partido_id, ganador_id, created_on];
+            await Database_1.DatabaseController.simpleInsert("pronosticos", "user_id, partido_id, ganador_id, created_on", insertData);
+        }
+        else {
+            throw new Error(messages_1.Messages.CANNOT_SEND_PRONOSTICO);
+        }
+    }
+    async updatePronosticoNoRest(pronostico) {
+        let pronostico_id = pronostico.id;
+        let partido_id = pronostico.partido_id;
+        let ganador_id = pronostico.ganador_id;
+        if (pronostico_id == undefined || pronostico_id == null) {
+            throw new Error(messages_1.Messages.ID_ISREQUIRED);
+        }
+        if (partido_id == undefined || partido_id == null) {
+            throw new Error(messages_1.Messages.PARTIDO_ID_ISREQUIRED);
+        }
+        if (ganador_id == undefined || ganador_id == null) {
+            throw new Error(messages_1.Messages.GANADOR_ID_ISREQUIRED);
+        }
+        if (await this.canSendPronostico(partido_id)) {
+            let updateData = [partido_id, ganador_id];
+            await Database_1.DatabaseController.simpleUpdateWithCondition("pronosticos", ["partido_id", "ganador_id"], updateData, `pronostico_id = ${pronostico_id}`);
         }
         else {
             throw new Error(messages_1.Messages.CANNOT_SEND_PRONOSTICO);

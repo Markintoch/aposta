@@ -8,6 +8,7 @@ var Messages;
     Messages["NOMBRE_ISREQUIRED"] = "El nombre es requerido para completar el registro";
     Messages["USERNAME_ISREQUIRED"] = "El username es requerido para completar el registro";
     Messages["PASSWORD_ISREQUIRED"] = "El password es requerido para completar el registro";
+    Messages["USER_ID_ISREQUIRED"] = "El id de usuario es requerido";
     Messages["EMAIL_ISREQUIRED"] = "El correo es requerido para completar el registro";
     Messages["ERROR_INSERT_NEW_USER"] = "Error al insertar el nuevo usuario";
     Messages["USERNAME_ALREADY_EXIST"] = "Ya existe un usuario con este username";
