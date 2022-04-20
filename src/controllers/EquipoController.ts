@@ -77,12 +77,18 @@ class Equipo {
             if( liga_id == undefined || liga_id == null ){ throw new Error(Messages.LIGA_ID_ISREQUIRED); }
             if( id_temporada == undefined || id_temporada == null ){ throw new Error(Messages.TEMPORADA_ID_ISREQUIRED); }
             if( nombre_equipo == undefined || nombre_equipo == null || nombre_equipo.trim() == '' ){throw new Error(Messages.NOMBRE_EQUIPO_ISREQUIRED)}
+            let updateData = [liga_id, id_temporada, nombre_equipo, activo];
+            let fieldsData = ["liga_id", "temporada_id", "nombre", "activo"]
+            
             if(request.files){
                 let logo : any = request.files.logo;
                 path = GeneralController.saveFile(logo);
+
+                updateData.push(path)
+                fieldsData.push('logo')
             }
-            let updateData = [liga_id, id_temporada, nombre_equipo, path, activo];
-            await DatabaseController.simpleUpdateWithCondition( "equipos", ["liga_id", "temporada_id", "nombre", "logo", "activo"], updateData, `equipo_id = ${equipo_id}`  );
+
+            await DatabaseController.simpleUpdateWithCondition( "equipos", fieldsData, updateData, `equipo_id = ${equipo_id}`  );
             let body = { status : 200, message : Messages.SUCCESS_UPDATE, data : null };
             response.json(body);
         }catch(error : any){

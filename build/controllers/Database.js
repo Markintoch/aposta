@@ -18,7 +18,7 @@ const connection = new pg_1.Client({
     /*/
     user: 'postgres',
     database: 'aposta',
-    password: '1205',
+    password: 'pegasso1',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     /*/

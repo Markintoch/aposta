@@ -67,12 +67,15 @@ class Liga {
             if (nombre_liga == undefined || nombre_liga == null || nombre_liga.trim() == '') {
                 throw new Error(messages_1.Messages.NOMBRE_LIGA_ISREQUIRED);
             }
+            let updateData = [nombre_liga, activo];
+            let fieldsData = ["nombre", "active"];
             if (request.files) {
                 let logo = request.files.logo;
                 path = GeneralController_1.GeneralController.saveFile(logo);
+                updateData.push(path);
+                fieldsData.push('logo');
             }
-            let updateData = [nombre_liga, path, activo];
-            await Database_1.DatabaseController.simpleUpdateWithCondition("ligas", ["nombre", "logo", "active"], updateData, `liga_id = ${id_liga}`);
+            await Database_1.DatabaseController.simpleUpdateWithCondition("ligas", fieldsData, updateData, `liga_id = ${id_liga}`);
             let body = { status: 200, message: messages_1.Messages.SUCCESS_UPDATE, data: null };
             response.json(body);
         }
