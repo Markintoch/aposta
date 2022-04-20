@@ -86,7 +86,7 @@ class Partido {
             let jornada_id = request.body.jornada_id;
             let vistante_id = request.body.vistante_id;
             let local_id = request.body.local_id;
-            let jornada_original = request.body.f_fin;
+            let jornada_original = request.body.jornada_original;
             if (partido_id == undefined || partido_id == null) {
                 throw new Error(messages_1.Messages.ID_ISREQUIRED);
             }

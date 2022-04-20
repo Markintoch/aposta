@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS partidos(
 	jornada_id int NOT NULL references jornadas(jornada_id), 
 	vistante_id int NOT NULL, 
 	local_id int NOT NULL, 
-	jornada_original int NOT NULL
+	jornada_original int NULL
 )
 
 CREATE TABLE IF NOT EXISTS resultados(
