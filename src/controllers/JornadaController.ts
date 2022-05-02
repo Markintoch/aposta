@@ -21,7 +21,20 @@ class Jornada{
         try{
             let temporada_id : any = request.params.id;
             if( temporada_id == undefined || temporada_id == null ){ throw new Error(Messages.TEMPORADA_ID_ISREQUIRED); }
-            let resultQuery = await DatabaseController.simpleSelectById( "jornadas", "temporada_id", temporada_id );
+            let resultQuery = await DatabaseController.selectJornadaByTemp(temporada_id); //simpleSelectById( "jornadas", "temporada_id", temporada_id );
+            let body = { status : 200, data : resultQuery };
+            response.json(body);
+        }catch(error : any ){
+            let errorBody = { error : error.message };
+            response.status(400).send(errorBody);
+        }
+    }
+
+    async getJornadaByLiga( request : Request, response : Response ){
+        try{
+            let liga_id : any = request.params.id;
+            if( liga_id == undefined || liga_id == null ){ throw new Error(Messages.LIGA_ID_ISREQUIRED); }
+            let resultQuery = await DatabaseController.selectJornadaByLiga(liga_id); //simpleSelectById( "jornadas", "temporada_id", temporada_id );
             let body = { status : 200, data : resultQuery };
             response.json(body);
         }catch(error : any ){

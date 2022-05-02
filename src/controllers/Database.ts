@@ -18,7 +18,7 @@ const connection = new Client({
     /*/
     user : 'postgres',
     database : 'aposta', 
-    password : 'pegasso1',
+    password : '1205',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     /*/
@@ -144,6 +144,61 @@ class Database {
         if ( !selectResult.rows.length ) { return null; }
         return selectResult.rows;
     } 
+
+    async selectEquipoByTemp( id : any ){
+        let selectQuery = `SELECT e.*, l.nombre as "nombre_liga", t.nombre as "temporada" FROM equipos e INNER JOIN temporadas t on t.temporada_id = e.temporada_id INNER JOIN ligas l on l.liga_id = e.liga_id WHERE e.temporada_id = ${id}`;
+        let selectResult = await this.runQueryAsync( selectQuery, null ).catch( (error : any) => { console.log(error); throw new Error(Messages.QUERY_SELECT_ERROR)} );
+        if ( !selectResult.rows.length ) { return null; }
+        return selectResult.rows;
+    }
+
+    async selectEquipoByLiga( id : any ){
+        let selectQuery = `SELECT e.*, l.nombre as "nombre_liga", t.nombre as "temporada" FROM equipos e INNER JOIN temporadas t on t.temporada_id = e.temporada_id INNER JOIN ligas l on l.liga_id = e.liga_id WHERE e.liga_id = ${id}`;
+        let selectResult = await this.runQueryAsync( selectQuery, null ).catch( (error : any) => { console.log(error); throw new Error(Messages.QUERY_SELECT_ERROR)} );
+        if ( !selectResult.rows.length ) { return null; }
+        return selectResult.rows;
+    }
+
+    async selectJornadaByTemp( id : any ){
+        let selectQuery = `SELECT j.*, l.nombre as "nombre_liga", t.nombre as "temporada" FROM jornadas j INNER JOIN temporadas t on t.temporada_id = j.temporada_id INNER JOIN ligas l on l.liga_id = j.liga_id WHERE j.temporada_id = ${id}`;
+        let selectResult = await this.runQueryAsync( selectQuery, null ).catch( (error : any) => { console.log(error); throw new Error(Messages.QUERY_SELECT_ERROR)} );
+        if ( !selectResult.rows.length ) { return null; }
+        return selectResult.rows;
+    }
+
+    async selectJornadaByLiga( id : any ){
+        let selectQuery = `SELECT j.*, l.nombre as "nombre_liga", t.nombre as "temporada" FROM jornadas j INNER JOIN temporadas t on t.temporada_id = j.temporada_id INNER JOIN ligas l on l.liga_id = j.liga_id WHERE j.liga_id = ${id}`;
+        let selectResult = await this.runQueryAsync( selectQuery, null ).catch( (error : any) => { console.log(error); throw new Error(Messages.QUERY_SELECT_ERROR)} );
+        if ( !selectResult.rows.length ) { return null; }
+        return selectResult.rows;
+    }
+
+    async selectPartidosByLiga( id : any ){
+        let selectQuery = `SELECT p.*, l.nombre as "nombre_liga", t.nombre as "temporada", j.nombre as "jornada", ev.nombre as "nombre_visitante", el.nombre as "nombre_local" FROM partidos p 
+            INNER JOIN temporadas t on t.temporada_id = p.temporada_id INNER JOIN ligas l on l.liga_id = p.liga_id INNER JOIN jornadas j on j.jornada_id = p.jornada_id
+            INNER JOIN equipos ev on ev.equipo_id = p.vistante_id INNER JOIN equipos el on el.equipo_id = p.local_id WHERE p.liga_id = ${id}`;
+        let selectResult = await this.runQueryAsync( selectQuery, null ).catch( (error : any) => { console.log(error); throw new Error(Messages.QUERY_SELECT_ERROR)} );
+        if ( !selectResult.rows.length ) { return null; }
+        return selectResult.rows;
+    }
+
+    async selectPartidosByTemp( id : any ){
+        let selectQuery = `SELECT p.*, l.nombre as "nombre_liga", t.nombre as "temporada", j.nombre as "jornada", ev.nombre as "nombre_visitante", el.nombre as "nombre_local" FROM partidos p 
+            INNER JOIN temporadas t on t.temporada_id = p.temporada_id INNER JOIN ligas l on l.liga_id = p.liga_id INNER JOIN jornadas j on j.jornada_id = p.jornada_id
+            INNER JOIN equipos ev on ev.equipo_id = p.vistante_id INNER JOIN equipos el on el.equipo_id = p.local_id WHERE p.temporada_id = ${id}`;
+        let selectResult = await this.runQueryAsync( selectQuery, null ).catch( (error : any) => { console.log(error); throw new Error(Messages.QUERY_SELECT_ERROR)} );
+        if ( !selectResult.rows.length ) { return null; }
+        return selectResult.rows;
+    }
+
+    async selectPartidosByJornada( id : any ){
+        let selectQuery = `SELECT p.*, l.nombre as "nombre_liga", t.nombre as "temporada", j.nombre as "jornada", ev.nombre as "nombre_visitante", el.nombre as "nombre_local" FROM partidos p 
+            INNER JOIN temporadas t on t.temporada_id = p.temporada_id INNER JOIN ligas l on l.liga_id = p.liga_id INNER JOIN jornadas j on j.jornada_id = p.jornada_id
+            INNER JOIN equipos ev on ev.equipo_id = p.vistante_id INNER JOIN equipos el on el.equipo_id = p.local_id WHERE p.jornada_id = ${id}`;
+        let selectResult = await this.runQueryAsync( selectQuery, null ).catch( (error : any) => { console.log(error); throw new Error(Messages.QUERY_SELECT_ERROR)} );
+        if ( !selectResult.rows.length ) { return null; }
+        return selectResult.rows;
+    }
 
     //agregar a la tabla el campo de activo
     async selectAll( tabla: string ){

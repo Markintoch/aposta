@@ -28,11 +28,50 @@ class Partido{
         }
     }
 
-    async getPartidosByJornada( request : Request, response : Response ){
+    /* async getPartidosByJornada( request : Request, response : Response ){
         try{
             let jornada_id : any = request.params.id;
             if( jornada_id == undefined || jornada_id == null ){ throw new Error(Messages.JORNADA_NUMBER_ISREQUIRED); }
             let resultQuery = await DatabaseController.simpleSelectById( "partidos", "jornada_id", jornada_id );
+            let body = { status : 200, data : resultQuery };
+            response.json(body);
+        }catch(error : any ){
+            let errorBody = { error : error.message };
+            response.status(400).send(errorBody);
+        }
+    } */
+
+    async getPartidosByLiga( request : Request, response : Response ){
+        try{
+            let liga_id : any = request.params.id;
+            if( liga_id == undefined || liga_id == null ){ throw new Error(Messages.LIGA_ID_ISREQUIRED); }
+            let resultQuery = await DatabaseController.selectPartidosByLiga(liga_id); //simpleSelectById( "partidos", "jornada_id", jornada_id );
+            let body = { status : 200, data : resultQuery };
+            response.json(body);
+        }catch(error : any ){
+            let errorBody = { error : error.message };
+            response.status(400).send(errorBody);
+        }
+    }
+
+    async getPartidosByTemp( request : Request, response : Response ){
+        try{
+            let temporada_id : any = request.params.id;
+            if( temporada_id == undefined || temporada_id == null ){ throw new Error(Messages.LIGA_ID_ISREQUIRED); }
+            let resultQuery = await DatabaseController.selectPartidosByTemp(temporada_id); //selectPartidosByLiga(liga_id); //simpleSelectById( "partidos", "jornada_id", jornada_id );
+            let body = { status : 200, data : resultQuery };
+            response.json(body);
+        }catch(error : any ){
+            let errorBody = { error : error.message };
+            response.status(400).send(errorBody);
+        }
+    }
+
+    async getPartidosByJornada( request : Request, response : Response ){
+        try{
+            let jornada_id : any = request.params.id;
+            if( jornada_id == undefined || jornada_id == null ){ throw new Error(Messages.LIGA_ID_ISREQUIRED); }
+            let resultQuery = await DatabaseController.selectPartidosByJornada(jornada_id); //selectPartidosByLiga(liga_id); //simpleSelectById( "partidos", "jornada_id", jornada_id );
             let body = { status : 200, data : resultQuery };
             response.json(body);
         }catch(error : any ){

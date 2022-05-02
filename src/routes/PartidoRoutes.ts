@@ -14,7 +14,9 @@ class PartidoRouter{
         this.router.post('/update', PartidoController.updatePartido.bind(PartidoController));
         this.router.get('/delete/:id', PartidoController.deletePartido.bind(PartidoController));
         this.router.get('/get/:id', PartidoController.getPartido.bind(PartidoController));
-        this.router.get('/list/:id', PartidoController.getPartidosByJornada.bind(PartidoController));
+        this.router.get('/list-liga/:id', PartidoController.getPartidosByLiga.bind(PartidoController));
+        this.router.get('/list-temporada/:id', PartidoController.getPartidosByTemp.bind(PartidoController));
+        this.router.get('/list-jornada/:id', PartidoController.getPartidosByJornada.bind(PartidoController));
         this.router.get('/list', PartidoController.getPartidos.bind(PartidoController));
     }
 

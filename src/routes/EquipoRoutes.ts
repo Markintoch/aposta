@@ -15,7 +15,8 @@ class EquipoRouter{
         this.router.post('/update', EquipoController.updateEquipo.bind(EquipoController));
         this.router.get('/delete/:id', EquipoController.deleteEquipo.bind(EquipoController));
         this.router.get('/get/:id', EquipoController.getEquipo.bind(EquipoController));
-        this.router.get('/list/:id', EquipoController.getEquiposByTemporada.bind(EquipoController));
+        this.router.get('/list-temporada/:id', EquipoController.getEquiposByTemporada.bind(EquipoController));
+        this.router.get('/list-liga/:id', EquipoController.getEquiposByLiga.bind(EquipoController));
         this.router.get('/list', EquipoController.getEquipos.bind(EquipoController));
     }
 

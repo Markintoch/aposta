@@ -14,7 +14,8 @@ class JornadaRouter{
         this.router.post('/update', JornadaController.updateJornada.bind(JornadaController));
         this.router.get('/delete/:id', JornadaController.deleteTemporada.bind(JornadaController));
         this.router.get('/get/:id', JornadaController.getJornada.bind(JornadaController));
-        this.router.get('/list/:id', JornadaController.getJornadaByTemporada.bind(JornadaController));
+        this.router.get('/list-temporada/:id', JornadaController.getJornadaByTemporada.bind(JornadaController));
+        this.router.get('/list-liga/:id', JornadaController.getJornadaByLiga.bind(JornadaController));
         this.router.get('/list', JornadaController.getJornadas.bind(JornadaController));
     }
 

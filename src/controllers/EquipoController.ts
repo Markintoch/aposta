@@ -21,8 +21,21 @@ class Equipo {
     async getEquiposByTemporada( request : Request, response : Response ){
         try{
             let temporada_id : any = request.params.id;
-            if( temporada_id == undefined || temporada_id == null ){ throw new Error(Messages.LIGA_ID_ISREQUIRED); }
-            let resultQuery = await DatabaseController.simpleSelectById( "equipos", "temporada_id", temporada_id );
+            if( temporada_id == undefined || temporada_id == null ){ throw new Error(Messages.TEMPORADA_ID_ISREQUIRED); }
+            let resultQuery = await DatabaseController.selectEquipoByTemp(temporada_id); //await DatabaseController.simpleSelectById( "equipos", "temporada_id", temporada_id );
+            let body = { status : 200, data : resultQuery };
+            response.json(body);
+        }catch(error : any ){
+            let errorBody = { error : error.message };
+            response.status(400).send(errorBody);
+        }
+    }
+
+    async getEquiposByLiga( request : Request, response : Response ){
+        try{
+            let liga_id : any = request.params.id;
+            if( liga_id == undefined || liga_id == null ){ throw new Error(Messages.LIGA_ID_ISREQUIRED); }
+            let resultQuery = await DatabaseController.selectEquipoByLiga(liga_id); //await DatabaseController.simpleSelectById( "equipos", "liga_id", liga_id );
             let body = { status : 200, data : resultQuery };
             response.json(body);
         }catch(error : any ){
