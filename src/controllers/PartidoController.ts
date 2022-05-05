@@ -19,7 +19,11 @@ class Partido{
 
     async getPartidos( request : Request, response : Response ){
         try{
-            let resultQuery = await DatabaseController.selectAll("partidos");
+            let { idLiga, idTemporada, idJornada } = request.params;
+            console.log( idLiga, idTemporada, idJornada, 'params...')
+
+            // let resultQuery = await DatabaseController.selectAll("partidos");
+            let resultQuery = await DatabaseController.selectPartidos(Number(idLiga), Number(idTemporada), Number(idJornada));
             let body = { status : 200, data : resultQuery };
             response.json(body);
         }catch(error : any ){

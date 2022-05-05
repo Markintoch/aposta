@@ -46,7 +46,10 @@ class Equipo {
 
     async getEquipos ( request : Request, response : Response ){
         try{
-            let resultQuery = await DatabaseController.selectAll( "equipos");
+            let { idLiga, idTemporada } = request.params;
+
+            // let resultQuery = await DatabaseController.selectAll( "equipos");
+            let resultQuery = await DatabaseController.selectEquipos(Number(idLiga), Number(idTemporada));
             let body = { status : 200, data : resultQuery };
             response.json(body);
         }catch(error : any ){

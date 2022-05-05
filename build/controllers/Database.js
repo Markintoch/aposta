@@ -171,6 +171,18 @@ class Database {
         }
         return selectResult.rows;
     }
+    async selectEquipos(idLiga, idTemporada) {
+        let selectQuery = `SELECT e.*, l.nombre as "nombre_liga", t.nombre as "temporada" FROM equipos e INNER JOIN temporadas t on t.temporada_id = e.temporada_id INNER JOIN ligas l on l.liga_id = e.liga_id`;
+        if (idLiga)
+            selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') && 'WHERE'} e.liga_id = ${idLiga}`;
+        if (idTemporada)
+            selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') ? 'WHERE' : 'AND'} e.temporada_id = ${idTemporada}`;
+        let selectResult = await this.runQueryAsync(selectQuery, null).catch((error) => { console.log(error); throw new Error(messages_1.Messages.QUERY_SELECT_ERROR); });
+        if (!selectResult.rows.length) {
+            return null;
+        }
+        return selectResult.rows;
+    }
     async selectJornadaByTemp(id) {
         let selectQuery = `SELECT j.*, l.nombre as "nombre_liga", t.nombre as "temporada" FROM jornadas j INNER JOIN temporadas t on t.temporada_id = j.temporada_id INNER JOIN ligas l on l.liga_id = j.liga_id WHERE j.temporada_id = ${id}`;
         let selectResult = await this.runQueryAsync(selectQuery, null).catch((error) => { console.log(error); throw new Error(messages_1.Messages.QUERY_SELECT_ERROR); });
@@ -211,6 +223,23 @@ class Database {
         let selectQuery = `SELECT p.*, l.nombre as "nombre_liga", t.nombre as "temporada", j.nombre as "jornada", ev.nombre as "nombre_visitante", el.nombre as "nombre_local" FROM partidos p 
             INNER JOIN temporadas t on t.temporada_id = p.temporada_id INNER JOIN ligas l on l.liga_id = p.liga_id INNER JOIN jornadas j on j.jornada_id = p.jornada_id
             INNER JOIN equipos ev on ev.equipo_id = p.vistante_id INNER JOIN equipos el on el.equipo_id = p.local_id WHERE p.jornada_id = ${id}`;
+        let selectResult = await this.runQueryAsync(selectQuery, null).catch((error) => { console.log(error); throw new Error(messages_1.Messages.QUERY_SELECT_ERROR); });
+        if (!selectResult.rows.length) {
+            return null;
+        }
+        return selectResult.rows;
+    }
+    async selectPartidos(idLiga, idTemporada, idJornada) {
+        let selectQuery = `SELECT p.*, l.nombre as "nombre_liga", t.nombre as "temporada", j.nombre as "jornada", ev.nombre as "nombre_visitante", ev.logo as "logo_visitante", el.nombre as "nombre_local", el.logo as "logo_local" FROM partidos p 
+            INNER JOIN temporadas t on t.temporada_id = p.temporada_id INNER JOIN ligas l on l.liga_id = p.liga_id INNER JOIN jornadas j on j.jornada_id = p.jornada_id
+            INNER JOIN equipos ev on ev.equipo_id = p.vistante_id INNER JOIN equipos el on el.equipo_id = p.local_id`;
+        if (idLiga)
+            selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') && 'WHERE'} p.liga_id = ${idLiga}`;
+        if (idTemporada)
+            selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') ? 'WHERE' : 'AND'} p.temporada_id = ${idTemporada}`;
+        if (idJornada)
+            selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') ? 'WHERE' : 'AND'} p.jornada_id = ${idJornada}`;
+        console.log(selectQuery, 'the query...');
         let selectResult = await this.runQueryAsync(selectQuery, null).catch((error) => { console.log(error); throw new Error(messages_1.Messages.QUERY_SELECT_ERROR); });
         if (!selectResult.rows.length) {
             return null;

@@ -12,10 +12,10 @@ class PartidoRouter {
         this.router.post('/update', PartidoController_1.PartidoController.updatePartido.bind(PartidoController_1.PartidoController));
         this.router.get('/delete/:id', PartidoController_1.PartidoController.deletePartido.bind(PartidoController_1.PartidoController));
         this.router.get('/get/:id', PartidoController_1.PartidoController.getPartido.bind(PartidoController_1.PartidoController));
-        this.router.get('/list-liga/:id', PartidoController_1.PartidoController.getPartidosByLiga.bind(PartidoController_1.PartidoController));
-        this.router.get('/list-temporada/:id', PartidoController_1.PartidoController.getPartidosByTemp.bind(PartidoController_1.PartidoController));
-        this.router.get('/list-jornada/:id', PartidoController_1.PartidoController.getPartidosByJornada.bind(PartidoController_1.PartidoController));
-        this.router.get('/list', PartidoController_1.PartidoController.getPartidos.bind(PartidoController_1.PartidoController));
+        // this.router.get('/list-liga/:id', PartidoController.getPartidosByLiga.bind(PartidoController));
+        // this.router.get('/list-temporada/:id', PartidoController.getPartidosByTemp.bind(PartidoController));
+        // this.router.get('/list-jornada/:id', PartidoController.getPartidosByJornada.bind(PartidoController));
+        this.router.get('/list/:idLiga/:idTemporada/:idJornada', PartidoController_1.PartidoController.getPartidos.bind(PartidoController_1.PartidoController));
     }
 }
 const PARTIDO_ROUTER = new PartidoRouter();
