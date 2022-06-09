@@ -32,6 +32,38 @@ class Partido{
         }
     }
 
+    async getPartidosBet( request : Request, response : Response ){
+        try{
+            let { idLiga, idTemporada } = request.params;
+            console.log( idLiga, idTemporada, 'params...')
+
+            // let resultQuery = await DatabaseController.selectAll("partidos");
+            let resultQuery = await DatabaseController.selectPartidos(Number(idLiga), Number(idTemporada), 0);
+            let lastTimeMatches = this.orderLastMatches(resultQuery);
+            let body = { status : 200, data : lastTimeMatches };
+            response.json(body);
+        }catch(error : any ){
+            let errorBody = { error : error.message };
+            response.status(400).send(errorBody);
+        }
+    }
+
+    orderLastMatches(resultQuery: Array<any>) {
+        function compare(a: any, b: any) {
+            if ( a.jornada_id < b.jornada_id ){
+              return -1;
+            }
+            if ( a.jornada_id > b.jornada_id ){
+              return 1;
+            }
+            return 0;
+          }
+          
+        resultQuery.sort(compare);
+        
+        return resultQuery.filter((elem) => { if(elem.jornada_id === resultQuery[resultQuery.length-1].jornada_id) return elem })
+    }
+
     /* async getPartidosByJornada( request : Request, response : Response ){
         try{
             let jornada_id : any = request.params.id;

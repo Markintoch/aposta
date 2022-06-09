@@ -16,6 +16,7 @@ class PartidoRouter {
         // this.router.get('/list-temporada/:id', PartidoController.getPartidosByTemp.bind(PartidoController));
         // this.router.get('/list-jornada/:id', PartidoController.getPartidosByJornada.bind(PartidoController));
         this.router.get('/list/:idLiga/:idTemporada/:idJornada', PartidoController_1.PartidoController.getPartidos.bind(PartidoController_1.PartidoController));
+        this.router.get('/list-bet/:idLiga/:idTemporada', PartidoController_1.PartidoController.getPartidosBet.bind(PartidoController_1.PartidoController));
     }
 }
 const PARTIDO_ROUTER = new PartidoRouter();
