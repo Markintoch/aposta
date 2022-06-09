@@ -36,7 +36,7 @@ class Auth {
             if( username == undefined || username == null || username.trim() == '' ){throw new Error(Messages.USERNAME_ISREQUIRED)}
             if( password == undefined || password == null || password.trim() == '' ){throw new Error(Messages.PASSWORD_ISREQUIRED)}
             let result = await DatabaseController.loginUser( username, password );
-            let responseData = { id : result[0].user_id, nombre : result[0].name, username : username, email : result[0].email };
+            let responseData = { id : result[0].user_id, nombre : result[0].name, username : username, email : result[0].email, role : result[0].role_id };
             let token = this.generateWebToken( responseData );
             let body = { data : responseData, token : token };
             response.json(body);

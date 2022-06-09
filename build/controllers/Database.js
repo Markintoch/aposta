@@ -73,7 +73,7 @@ class Database {
         let checkExistData = [username];
         let loginData = [username, hashPassword];
         let selectQuery = 'SELECT * FROM usuarios WHERE username=$1';
-        let loginQuery = 'SELECT user_id, name, email, username FROM usuarios WHERE username = $1 AND password = $2';
+        let loginQuery = 'SELECT user_id, name, email, username, role_id FROM usuarios WHERE username = $1 AND password = $2';
         let checkUserExist = await this.runQueryAsync(selectQuery, checkExistData).catch((error) => { throw new Error(messages_1.Messages.LOGIN_ERROR); });
         if (!checkUserExist.rows.length) {
             throw new Error(messages_1.Messages.USERNAME_NOT_EXIST);

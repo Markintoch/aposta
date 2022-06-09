@@ -24,7 +24,7 @@ class Server{
 
     public app: Application;
     public cors : any;
-    public port : any = process.env.PORT || 3000;
+    public port : any = process.env.PORT || 3010;
 
     constructor(){
         this.app = express();

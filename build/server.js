@@ -21,7 +21,7 @@ const mediaPath = path.join(__dirname, '../media');
 require('dotenv').config();
 class Server {
     constructor() {
-        this.port = process.env.PORT || 3000;
+        this.port = process.env.PORT || 3010;
         this.app = (0, express_1.default)();
         this.app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
         this.app.use(bodyParser.json({ limit: '100mb', extended: true }));
