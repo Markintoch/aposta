@@ -51,11 +51,11 @@ class Liga{
         try{
             let id_liga : any = request.body.id;
             let nombre_liga : string  = request.body.nombre;
-            let activo : boolean = request.body.activo;
-            let path : string = request.body.logo;
+            let active : boolean = request.body.active;
+            let path : string = request.body.path;
             if( id_liga == undefined || id_liga == null ){ throw new Error(Messages.ID_ISREQUIRED); }
             if( nombre_liga == undefined || nombre_liga == null || nombre_liga.trim() == '' ){throw new Error(Messages.NOMBRE_LIGA_ISREQUIRED)}
-            let updateData = [nombre_liga, activo];
+            let updateData = [nombre_liga, active];
             let fieldsData = ["nombre", "active"]
 
             if(request.files){

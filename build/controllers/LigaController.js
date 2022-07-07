@@ -38,7 +38,7 @@ class Liga {
             }
             let nombre_liga = request.body.nombre;
             let activo = request.body.activo;
-            let logo = request.files ? request.files.logo : request.body.logo;
+            let logo = request.files ? request.files.logo : request.body.path;
             if (nombre_liga == undefined || nombre_liga == null || nombre_liga.trim() == '') {
                 throw new Error(messages_1.Messages.NOMBRE_LIGA_ISREQUIRED);
             }
@@ -57,15 +57,15 @@ class Liga {
         try {
             let id_liga = request.body.id;
             let nombre_liga = request.body.nombre;
-            let activo = request.body.activo;
-            let path = request.body.logo;
+            let active = request.body.active;
+            let path = request.body.path;
             if (id_liga == undefined || id_liga == null) {
                 throw new Error(messages_1.Messages.ID_ISREQUIRED);
             }
             if (nombre_liga == undefined || nombre_liga == null || nombre_liga.trim() == '') {
                 throw new Error(messages_1.Messages.NOMBRE_LIGA_ISREQUIRED);
             }
-            let updateData = [nombre_liga, activo];
+            let updateData = [nombre_liga, active];
             let fieldsData = ["nombre", "active"];
             if (request.files) {
                 let logo = request.files.logo;

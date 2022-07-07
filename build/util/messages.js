@@ -36,7 +36,7 @@ var Messages;
     Messages["DATE_END_ISREQUIRED"] = "Es necesario proporcionar una fecha de fin";
     Messages["DATE_START_ISREQUIRED"] = "Es necesario proporcionar una fecha de inicio";
     Messages["LIGA_INSERT_ERROR"] = "Error al crear la liga, contacte al administrador";
-    Messages["QUERY_UPDATE_ERROR"] = "Error al eliminar el registro, contacte al administrador";
+    Messages["QUERY_UPDATE_ERROR"] = "Error al actualizar el registro, contacte al administrador";
     Messages["QUERY_DELETE_ERROR"] = "Error al eliminar el registro, contacte al administrador";
     Messages["QUERY_SELECT_ERROR"] = "Error al obtener el registro solicitado, contacte al administrado";
     Messages["SUCCESS_INSERT"] = "Registro hecho con exito";

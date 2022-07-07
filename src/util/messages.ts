@@ -33,7 +33,7 @@ export enum Messages{
     DATE_END_ISREQUIRED = "Es necesario proporcionar una fecha de fin",
     DATE_START_ISREQUIRED = "Es necesario proporcionar una fecha de inicio",
     LIGA_INSERT_ERROR = "Error al crear la liga, contacte al administrador",
-    QUERY_UPDATE_ERROR = "Error al eliminar el registro, contacte al administrador",
+    QUERY_UPDATE_ERROR = "Error al actualizar el registro, contacte al administrador",
     QUERY_DELETE_ERROR = "Error al eliminar el registro, contacte al administrador",
     QUERY_SELECT_ERROR = "Error al obtener el registro solicitado, contacte al administrado",
     SUCCESS_INSERT = "Registro hecho con exito",
