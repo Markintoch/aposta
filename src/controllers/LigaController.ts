@@ -33,12 +33,12 @@ class Liga{
         try{
             if(!request.files){ throw new Error(Messages.IMG_ISREQUIRED); }
             let nombre_liga : string  = request.body.nombre;
-            let activo : boolean = request.body.activo;
-            let logo : any = request.files ? request.files.logo : request.body.path;
+            let active : boolean = request.body.active;
+            let logo : any = request.files ? request.files.logo : null;
             if( nombre_liga == undefined || nombre_liga == null || nombre_liga.trim() == '' ){throw new Error(Messages.NOMBRE_LIGA_ISREQUIRED)}
             //if( logo == undefined || logo == null || logo.length == 0 ){throw new Error(Messages.IMG_ISREQUIRED)}
             let path = request.files ? GeneralController.saveFile(logo) : logo;
-            await DatabaseController.simpleInsert( "ligas", "nombre, logo, active", [nombre_liga, path, activo] );
+            await DatabaseController.simpleInsert( "ligas", "nombre, logo, active", [nombre_liga, path, active] );
             let body = { status : 200, message : Messages.SUCCESS_INSERT, data : null };
             response.json(body);
         }catch(error : any ){
