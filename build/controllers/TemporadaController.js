@@ -36,7 +36,7 @@ class Temporada {
     }
     async getTemporadas(request, response) {
         try {
-            let resultQuery = await Database_1.DatabaseController.selectAll("temporadas");
+            let resultQuery = await Database_1.DatabaseController.selectTemporadas();
             let body = { status: 200, data: resultQuery };
             response.json(body);
         }

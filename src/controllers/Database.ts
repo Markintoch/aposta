@@ -170,6 +170,16 @@ class Database {
         return selectResult.rows;
     }
 
+    async selectTemporadas( idLiga : any = null ){
+        let selectQuery = `SELECT t.*, l.nombre as "nombre_liga" FROM temporadas t INNER JOIN ligas l on t.liga_id = l.liga_id`;
+
+        if(idLiga) selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') && 'WHERE'} e.liga_id = ${idLiga}`
+
+        let selectResult = await this.runQueryAsync( selectQuery, null ).catch( (error : any) => { console.log(error); throw new Error(Messages.QUERY_SELECT_ERROR)} );
+        if ( !selectResult.rows.length ) { return null; }
+        return selectResult.rows;
+    }
+
     async selectJornadaByTemp( id : any ){
         let selectQuery = `SELECT j.*, l.nombre as "nombre_liga", t.nombre as "temporada" FROM jornadas j INNER JOIN temporadas t on t.temporada_id = j.temporada_id INNER JOIN ligas l on l.liga_id = j.liga_id WHERE j.temporada_id = ${id}`;
         let selectResult = await this.runQueryAsync( selectQuery, null ).catch( (error : any) => { console.log(error); throw new Error(Messages.QUERY_SELECT_ERROR)} );

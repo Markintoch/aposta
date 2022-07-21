@@ -32,7 +32,7 @@ class Temporada {
 
     async getTemporadas( request : Request, response : Response ){
         try{
-            let resultQuery = await DatabaseController.selectAll("temporadas");
+            let resultQuery = await DatabaseController.selectTemporadas();
             let body = { status : 200, data : resultQuery };
             response.json(body);
         }catch(error : any ){
