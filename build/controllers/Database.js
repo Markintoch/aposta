@@ -118,7 +118,14 @@ class Database {
     async deleteById(tabla, atributo, atributo_id) {
         let deleteData = [atributo_id];
         let deleteQuery = "DELETE FROM " + tabla + " WHERE " + atributo + " = $1";
-        await this.runQueryAsync(deleteQuery, deleteData).catch((error) => { throw new Error(messages_1.Messages.QUERY_DELETE_ERROR); });
+        await this.runQueryAsync(deleteQuery, deleteData).catch((error) => {
+            if (error.code == 23503) {
+                throw new Error(messages_1.Messages.FOREIGN_KEY_VIOLATION);
+            }
+            else {
+                throw new Error(messages_1.Messages.QUERY_DELETE_ERROR);
+            }
+        });
     }
     async simpleSelectById(tabla, atributo, atributo_id) {
         let selectData = [atributo_id];
@@ -172,7 +179,7 @@ class Database {
         return selectResult.rows;
     }
     async selectEquipos(idLiga, idTemporada) {
-        let selectQuery = `SELECT e.*, l.nombre as "nombre_liga", t.nombre as "temporada" FROM equipos e INNER JOIN temporadas t on t.temporada_id = e.temporada_id INNER JOIN ligas l on l.liga_id = e.liga_id`;
+        let selectQuery = `SELECT e.*, l.nombre as "nombre_liga", t.nombre || '(' || t.numero || ')' as "nombre_temporada" FROM equipos e INNER JOIN temporadas t on t.temporada_id = e.temporada_id INNER JOIN ligas l on l.liga_id = e.liga_id`;
         if (idLiga)
             selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') && 'WHERE'} e.liga_id = ${idLiga}`;
         if (idTemporada)

@@ -17,7 +17,7 @@ class EquipoRouter{
         this.router.get('/get/:id', EquipoController.getEquipo.bind(EquipoController));
         this.router.get('/list-temporada/:id', EquipoController.getEquiposByTemporada.bind(EquipoController));
         this.router.get('/list-liga/:id', EquipoController.getEquiposByLiga.bind(EquipoController));
-        this.router.get('/list/:idLiga/:idTemporada', EquipoController.getEquipos.bind(EquipoController));
+        this.router.get('/list/', EquipoController.getEquipos.bind(EquipoController));
     }
 
 }
