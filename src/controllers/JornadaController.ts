@@ -45,7 +45,9 @@ class Jornada{
 
     async getJornadas( request : Request, response : Response ){
         try{
-            let resultQuery = await DatabaseController.selectAll("jornadas");
+            let { idLiga, idTemporada } = request.params;
+            //let resultQuery = await DatabaseController.selectAll("jornadas");
+            let resultQuery = await DatabaseController.selectJornadas(idLiga, idTemporada);
             let body = { status : 200, data : resultQuery };
             response.json(body);
         }catch(error : any ){

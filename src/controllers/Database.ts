@@ -18,7 +18,7 @@ const connection = new Client({
     /*/
     user : 'postgres',
     database : 'aposta', 
-    password : '1205',
+    password : '0408',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     /*/
@@ -164,6 +164,17 @@ class Database {
 
     async selectEquipos( idLiga : any, idTemporada: any ){
         let selectQuery = `SELECT e.*, l.nombre as "nombre_liga", t.nombre || '(' || t.numero || ')' as "nombre_temporada" FROM equipos e INNER JOIN temporadas t on t.temporada_id = e.temporada_id INNER JOIN ligas l on l.liga_id = e.liga_id`;
+
+        if(idLiga) selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') && 'WHERE'} e.liga_id = ${idLiga}`
+        if(idTemporada) selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') ? 'WHERE' : 'AND'} e.temporada_id = ${idTemporada}`
+
+        let selectResult = await this.runQueryAsync( selectQuery, null ).catch( (error : any) => { console.log(error); throw new Error(Messages.QUERY_SELECT_ERROR)} );
+        if ( !selectResult.rows.length ) { return null; }
+        return selectResult.rows;
+    }
+
+    async selectJornadas( idLiga : any, idTemporada : any ){
+        let selectQuery = `SELECT j.*, l.nombre as "nombre_liga", t.nombre || '(' || t.numero || ')' as "nombre_temporada" FROM jornadas j INNER JOIN temporadas t on t.temporada_id = j.temporada_id INNER JOIN ligas l on l.liga_id = j.liga_id`;
 
         if(idLiga) selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') && 'WHERE'} e.liga_id = ${idLiga}`
         if(idTemporada) selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') ? 'WHERE' : 'AND'} e.temporada_id = ${idTemporada}`
