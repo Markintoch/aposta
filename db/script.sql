@@ -64,9 +64,10 @@ CREATE TABLE IF NOT EXISTS partidos(
 
 CREATE TABLE IF NOT EXISTS resultados(
 	resultado_id serial PRIMARY KEY,
+	jornada_id int NOT NULL,
 	partido_id int NOT NULL references partidos(partido_id),
-	marcador_local int NOT NULL,
-	marcador_visitante int NOT NULL, 
+	marcador_local int ,
+	marcador_visitante int , 
 	ganador_id int NOT NULL
 )
 

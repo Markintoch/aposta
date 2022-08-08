@@ -47,6 +47,34 @@ class Resultado {
             response.status(400).send(errorBody);
         }
     }
+    async createResultados(request, response) {
+        try {
+            let resultados = request.body.resultados;
+            let jsonResultados = JSON.parse(resultados);
+            if (jsonResultados == undefined || jsonResultados == null) {
+                throw new Error(messages_1.Messages.PARTIDO_ID_ISREQUIRED);
+            }
+            for (let resultado of jsonResultados) {
+                if (resultado.jornada_id == undefined || resultado.jornada_id == null) {
+                    throw new Error(messages_1.Messages.JORNADA_ID_ISREQUIRED);
+                }
+                if (resultado.partido_id == undefined || resultado.partido_id == null) {
+                    throw new Error(messages_1.Messages.PARTIDO_ID_ISREQUIRED);
+                }
+                if (resultado.ganador_id == undefined || resultado.ganador_id == null) {
+                    throw new Error(messages_1.Messages.GANADOR_ID_ISREQUIRED);
+                }
+                let insertData = [resultado.jornada_id, resultado.partido_id, resultado.ganador_id];
+                await Database_1.DatabaseController.simpleInsert("resultados", "jornada_id, partido_id, ganador_id", insertData);
+            }
+            let body = { status: 200, message: messages_1.Messages.SUCCESS_INSERT, data: null };
+            response.json(body);
+        }
+        catch (error) {
+            let errorBody = { error: error.message };
+            response.status(400).send(errorBody);
+        }
+    }
     async updateResultado(request, response) {
         try {
             let resultado_id = request.body.resultado_id;

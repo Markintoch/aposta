@@ -11,6 +11,7 @@ class ResultadoRouter{
 
     config() : void {
         this.router.post('/create', ResultadoController.createResultado.bind(ResultadoController));
+        this.router.post('/create-list', ResultadoController.createResultados.bind(ResultadoController));
         this.router.post('/update', ResultadoController.updateResultado.bind(ResultadoController));
         this.router.get('/delete/:id', ResultadoController.deleteResultado.bind(ResultadoController));
         this.router.get('/get/:id', ResultadoController.getResultado.bind(ResultadoController));

@@ -26,6 +26,7 @@ export enum Messages{
     VISITANTE_ID_ISREQUIRED = "Es necesario proporcionar un equipo visitante a este partido",
     LOCAL_ID_ISREQUIRED = "Es necesario proporcionar un equipo visitante a este partido",
     PARTIDO_ID_ISREQUIRED = "Es necesario indicar el partido de este resultado",
+    JORNADA_ID_ISREQUIRED = "Es necesario indicar la jornada de este resultado",
     MARCADOR_L_ISREQUIRED = "Es necesario indicar el marcador del equipo local",
     MARCADOR_V_ISREQUIRED = "Es necesario indicar el marcador del equipo visitante",
     GANADOR_ID_ISREQUIRED = "Es necesario indicar el equipo ganador de este partido",

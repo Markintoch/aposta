@@ -69,24 +69,23 @@ class Equipo {
                 throw new Error(messages_1.Messages.IMG_ISREQUIRED);
             }
             let liga_id = request.body.liga_id;
-            let id_temporada = request.body.temporada_id;
+            let temporada_id = request.body.temporada_id;
             let nombre_equipo = request.body.nombre;
             let activo = request.body.activo;
-            let logo = request.files.logo;
+            let logo = request.files ? request.files.logo : null;
             if (liga_id == undefined || liga_id == null) {
                 throw new Error(messages_1.Messages.LIGA_ID_ISREQUIRED);
             }
-            if (id_temporada == undefined || id_temporada == null) {
+            if (temporada_id == undefined || temporada_id == null) {
                 throw new Error(messages_1.Messages.TEMPORADA_ID_ISREQUIRED);
             }
             if (nombre_equipo == undefined || nombre_equipo == null || nombre_equipo.trim() == '') {
                 throw new Error(messages_1.Messages.NOMBRE_EQUIPO_ISREQUIRED);
             }
-            if (logo == undefined || logo == null || logo.length == 0) {
-                throw new Error(messages_1.Messages.IMG_ISREQUIRED);
-            }
-            let path_logo = GeneralController_1.GeneralController.saveFile(logo);
-            let insertData = [liga_id, id_temporada, nombre_equipo, path_logo, activo];
+            //if( logo == undefined || logo == null || logo.length == 0 ){throw new Error(Messages.IMG_ISREQUIRED)}
+            let path = request.files ? GeneralController_1.GeneralController.saveFile(logo) : logo;
+            //let path_logo = GeneralController.saveFile(logo);
+            let insertData = [liga_id, temporada_id, nombre_equipo, path, activo];
             await Database_1.DatabaseController.simpleInsert("equipos", "liga_id, temporada_id, nombre, logo, activo", insertData);
             let body = { status: 200, message: messages_1.Messages.SUCCESS_INSERT, data: null };
             response.json(body);

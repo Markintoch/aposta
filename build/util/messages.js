@@ -29,6 +29,7 @@ var Messages;
     Messages["VISITANTE_ID_ISREQUIRED"] = "Es necesario proporcionar un equipo visitante a este partido";
     Messages["LOCAL_ID_ISREQUIRED"] = "Es necesario proporcionar un equipo visitante a este partido";
     Messages["PARTIDO_ID_ISREQUIRED"] = "Es necesario indicar el partido de este resultado";
+    Messages["JORNADA_ID_ISREQUIRED"] = "Es necesario indicar la jornada de este resultado";
     Messages["MARCADOR_L_ISREQUIRED"] = "Es necesario indicar el marcador del equipo local";
     Messages["MARCADOR_V_ISREQUIRED"] = "Es necesario indicar el marcador del equipo visitante";
     Messages["GANADOR_ID_ISREQUIRED"] = "Es necesario indicar el equipo ganador de este partido";
