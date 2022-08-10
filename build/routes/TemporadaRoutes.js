@@ -13,8 +13,8 @@ class TemporadaRouter {
         this.router.post('/update', TemporadaController_1.TemporadaController.updateTemporada.bind(TemporadaController_1.TemporadaController));
         this.router.delete('/delete/:id', TemporadaController_1.TemporadaController.deleteTemporada.bind(TemporadaController_1.TemporadaController));
         this.router.get('/get/:id', TemporadaController_1.TemporadaController.getTemporada.bind(TemporadaController_1.TemporadaController));
-        this.router.get('/list/:id', TemporadaController_1.TemporadaController.getTemporadasByLiga.bind(TemporadaController_1.TemporadaController));
-        this.router.get('/list', TemporadaController_1.TemporadaController.getTemporadas.bind(TemporadaController_1.TemporadaController));
+        this.router.get('/list/:liga_id', TemporadaController_1.TemporadaController.getTemporadas.bind(TemporadaController_1.TemporadaController));
+        //this.router.get('/list', TemporadaController.getTemporadas.bind(TemporadaController));
     }
 }
 const TEMPORADA_ROUTER = new TemporadaRouter();

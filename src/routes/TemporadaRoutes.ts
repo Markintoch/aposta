@@ -15,8 +15,8 @@ class TemporadaRouter{
         this.router.post('/update', TemporadaController.updateTemporada.bind(TemporadaController));
         this.router.delete('/delete/:id', TemporadaController.deleteTemporada.bind(TemporadaController));
         this.router.get('/get/:id', TemporadaController.getTemporada.bind(TemporadaController));
-        this.router.get('/list/:id', TemporadaController.getTemporadasByLiga.bind(TemporadaController));
-        this.router.get('/list', TemporadaController.getTemporadas.bind(TemporadaController));
+        this.router.get('/list/:liga_id', TemporadaController.getTemporadas.bind(TemporadaController));
+        //this.router.get('/list', TemporadaController.getTemporadas.bind(TemporadaController));
     }
 
 }

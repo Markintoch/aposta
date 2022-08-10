@@ -32,7 +32,8 @@ class Temporada {
 
     async getTemporadas( request : Request, response : Response ){
         try{
-            let resultQuery = await DatabaseController.selectTemporadas();
+            let { liga_id } = request.params;
+            let resultQuery = await DatabaseController.selectTemporadas(Number(liga_id));
             let body = { status : 200, data : resultQuery };
             response.json(body);
         }catch(error : any ){

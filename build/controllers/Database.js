@@ -18,7 +18,7 @@ const connection = new pg_1.Client({
     /*/
     user: 'postgres',
     database: 'aposta',
-    password: '0408',
+    password: '1205',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     /*/
@@ -205,7 +205,7 @@ class Database {
     async selectTemporadas(idLiga = null) {
         let selectQuery = `SELECT t.*, l.nombre as "nombre_liga" FROM temporadas t INNER JOIN ligas l on t.liga_id = l.liga_id`;
         if (idLiga)
-            selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') && 'WHERE'} e.liga_id = ${idLiga}`;
+            selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') && 'WHERE'} l.liga_id = ${idLiga}`;
         let selectResult = await this.runQueryAsync(selectQuery, null).catch((error) => { console.log(error); throw new Error(messages_1.Messages.QUERY_SELECT_ERROR); });
         if (!selectResult.rows.length) {
             return null;
