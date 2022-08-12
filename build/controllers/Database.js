@@ -212,6 +212,16 @@ class Database {
         }
         return selectResult.rows;
     }
+    async selectTemporadasMin(idLiga = null) {
+        let selectQuery = `SELECT t.temporada_id,  t.nombre || '(' || t.numero || ')' as "nombre_temporada" FROM temporadas t`;
+        if (idLiga)
+            selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') && 'WHERE'} t.liga_id = ${idLiga}`;
+        let selectResult = await this.runQueryAsync(selectQuery, null).catch((error) => { console.log(error); throw new Error(messages_1.Messages.QUERY_SELECT_ERROR); });
+        if (!selectResult.rows.length) {
+            return null;
+        }
+        return selectResult.rows;
+    }
     async selectJornadaByTemp(id) {
         let selectQuery = `SELECT j.*, l.nombre as "nombre_liga", t.nombre as "temporada" FROM jornadas j INNER JOIN temporadas t on t.temporada_id = j.temporada_id INNER JOIN ligas l on l.liga_id = j.liga_id WHERE j.temporada_id = ${id}`;
         let selectResult = await this.runQueryAsync(selectQuery, null).catch((error) => { console.log(error); throw new Error(messages_1.Messages.QUERY_SELECT_ERROR); });

@@ -46,6 +46,18 @@ class Temporada {
             response.status(400).send(errorBody);
         }
     }
+    async getTemporadasMin(request, response) {
+        try {
+            let { liga_id } = request.params;
+            let resultQuery = await Database_1.DatabaseController.selectTemporadasMin(Number(liga_id));
+            let body = { status: 200, data: resultQuery };
+            response.json(body);
+        }
+        catch (error) {
+            let errorBody = { error: error.message };
+            response.status(400).send(errorBody);
+        }
+    }
     async createTemporada(request, response) {
         try {
             let liga_id = request.body.liga_id;
