@@ -261,6 +261,21 @@ class Database {
         return selectResult.rows;
     }
 
+    async selectPronosticos(user_id : any, liga_id : any, temporada_id : any){
+        let selectQuery = `SELECT p.*, ev.nombre  || ' vs ' || el.nombre as "partido", l.nombre as "nombre_liga", t.nombre as "temporada", j.nombre as "jornada"
+        FROM pronosticos INNER JOIN partidos pt on p.partido_id = pt.partido_id INNER JOIN equipos ev on ev.equipo_id = pt.visitante_id INNER JOIN equipos el on el.equipo_id = pt.local_id 
+        INNER JOIN temporada t on t.temporada_id = pt.temporada_id INNER JOIN liga l on l.liga_id = pt.liga_id WHERE p.user_id = ${user_id}`;
+
+        if(liga_id) selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') ? 'WHERE' : 'AND'} p.liga_id = ${liga_id}`
+        if(temporada_id) selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') ? 'WHERE' : 'AND'} p.temporada_id = ${temporada_id}`
+
+        console.log(selectQuery, 'the query...')
+        
+        let selectResult = await this.runQueryAsync( selectQuery, null ).catch( (error : any) => { console.log(error); throw new Error(Messages.QUERY_SELECT_ERROR)} );
+        if ( !selectResult.rows.length ) { return null; }
+        return selectResult.rows;
+    }
+
     //agregar a la tabla el campo de activo
     async selectAll( tabla: string ){
         let selectQuery = "SELECT * FROM " + tabla ;

@@ -110,6 +110,20 @@ class Pronostico{
         }else{ throw new Error(Messages.CANNOT_SEND_PRONOSTICO); }
     }
 
+    async getPronosticosUser( request : Request, response : Response ){
+        try{
+            let { user_id, liga_id, temporada_id } = request.params;
+            console.log( user_id, liga_id, temporada_id, 'params...');
+            if( user_id == null || user_id === undefined ){ throw new Error(Messages.USER_ID_ISREQUIRED); }
+            let resultQuery = await DatabaseController.selectPronosticos(Number(user_id), Number(liga_id), Number(temporada_id));
+            let body = { status : 200, data : resultQuery };
+            response.json(body);
+        }catch(error : any ){
+            let errorBody = { error : error.message };
+            response.status(400).send(errorBody);
+        }
+    }
+
     async canSendPronostico( partido_id : any ) : Promise<boolean>{
         try{
             let resultadoPartido = await DatabaseController.simpleSelectById( "partidos", "jornada_id", partido_id );
