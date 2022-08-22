@@ -18,7 +18,7 @@ const connection = new pg_1.Client({
     /*/
     user: 'postgres',
     database: 'aposta',
-    password: '1205',
+    password: '0408',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     /*/
@@ -279,6 +279,29 @@ class Database {
         if (idJornada)
             selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') ? 'WHERE' : 'AND'} p.jornada_id = ${idJornada}`;
         console.log(selectQuery, 'the query...');
+        let selectResult = await this.runQueryAsync(selectQuery, null).catch((error) => { console.log(error); throw new Error(messages_1.Messages.QUERY_SELECT_ERROR); });
+        if (!selectResult.rows.length) {
+            return null;
+        }
+        return selectResult.rows;
+    }
+    async selectPronosticos(user_id, liga_id, temporada_id) {
+        let selectQuery = `SELECT p.*, ev.nombre  || ' vs ' || el.nombre as "partido", l.nombre as "nombre_liga", t.nombre as "temporada", j.nombre as "jornada"
+        FROM pronosticos INNER JOIN partidos pt on p.partido_id = pt.partido_id INNER JOIN equipos ev on ev.equipo_id = pt.visitante_id INNER JOIN equipos el on el.equipo_id = pt.local_id 
+        INNER JOIN temporada t on t.temporada_id = pt.temporada_id INNER JOIN liga l on l.liga_id = pt.liga_id WHERE p.user_id = ${user_id}`;
+        if (liga_id)
+            selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') ? 'WHERE' : 'AND'} p.liga_id = ${liga_id}`;
+        if (temporada_id)
+            selectQuery = selectQuery + ` ${!selectQuery.includes('WHERE') ? 'WHERE' : 'AND'} p.temporada_id = ${temporada_id}`;
+        console.log(selectQuery, 'the query...');
+        let selectResult = await this.runQueryAsync(selectQuery, null).catch((error) => { console.log(error); throw new Error(messages_1.Messages.QUERY_SELECT_ERROR); });
+        if (!selectResult.rows.length) {
+            return null;
+        }
+        return selectResult.rows;
+    }
+    async getResultadosByJornada(jornada_id) {
+        let selectQuery = `SELECT * FROM resultados r WHERE r.jornada_id = ${jornada_id} `;
         let selectResult = await this.runQueryAsync(selectQuery, null).catch((error) => { console.log(error); throw new Error(messages_1.Messages.QUERY_SELECT_ERROR); });
         if (!selectResult.rows.length) {
             return null;

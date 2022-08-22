@@ -13,6 +13,7 @@ class ResultadoRouter {
         this.router.post('/update', ResultadoController_1.ResultadoController.updateResultado.bind(ResultadoController_1.ResultadoController));
         this.router.get('/delete/:id', ResultadoController_1.ResultadoController.deleteResultado.bind(ResultadoController_1.ResultadoController));
         this.router.get('/get/:id', ResultadoController_1.ResultadoController.getResultado.bind(ResultadoController_1.ResultadoController));
+        this.router.get('/get-by-jornada/:jornada', ResultadoController_1.ResultadoController.checkExisteResultado.bind(ResultadoController_1.ResultadoController));
         /* this.router.get('/list/:id', ResultadoController.getPartidosByJornada.bind(ResultadoController)); */
     }
 }

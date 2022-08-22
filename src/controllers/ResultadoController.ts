@@ -91,6 +91,19 @@ class Resultado{
             response.status(400).send(errorBody);
         }
     }
+
+    async checkExisteResultado( request : Request, response : Response ){
+        try{
+            let jornada_id : any = request.params.jornada;
+            if( jornada_id == undefined || jornada_id == null ){ throw new Error(Messages.JORNADA_ID_ISREQUIRED); }
+            let resultQuery = await DatabaseController.getResultadosByJornada( jornada_id );
+            let body = { status : 200, data : resultQuery };
+            response.json(body);
+        }catch(error : any ){
+            let errorBody = { error : error.message };
+            response.status(400).send(errorBody);
+        }
+    }
  
 }
 

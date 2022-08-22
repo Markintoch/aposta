@@ -14,6 +14,7 @@ class PronosticoRouter {
         this.router.post('/update-multiple', PronosticoController_1.PronosticoController.updatePronosticos.bind(PronosticoController_1.PronosticoController));
         this.router.get('/get/:id', PronosticoController_1.PronosticoController.getPronostico.bind(PronosticoController_1.PronosticoController));
         this.router.get('/get-by-jornada/:id/:user_id', PronosticoController_1.PronosticoController.getPronosticosByJornada.bind(PronosticoController_1.PronosticoController));
+        this.router.get('/list-user/:user_id/:liga_id/:temporada_id', PronosticoController_1.PronosticoController.getPronosticosUser.bind(PronosticoController_1.PronosticoController));
     }
 }
 const PRONOSTICO_ROUTER = new PronosticoRouter();

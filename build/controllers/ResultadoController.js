@@ -122,5 +122,20 @@ class Resultado {
             response.status(400).send(errorBody);
         }
     }
+    async checkExisteResultado(request, response) {
+        try {
+            let jornada_id = request.params.jornada;
+            if (jornada_id == undefined || jornada_id == null) {
+                throw new Error(messages_1.Messages.JORNADA_ID_ISREQUIRED);
+            }
+            let resultQuery = await Database_1.DatabaseController.getResultadosByJornada(jornada_id);
+            let body = { status: 200, data: resultQuery };
+            response.json(body);
+        }
+        catch (error) {
+            let errorBody = { error: error.message };
+            response.status(400).send(errorBody);
+        }
+    }
 }
 exports.ResultadoController = new Resultado();

@@ -18,7 +18,7 @@ const connection = new Client({
     /*/
     user : 'postgres',
     database : 'aposta', 
-    password : '1205',
+    password : '0408',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     /*/
@@ -275,6 +275,16 @@ class Database {
         if ( !selectResult.rows.length ) { return null; }
         return selectResult.rows;
     }
+
+    async getResultadosByJornada(jornada_id : any){
+        let selectQuery = `SELECT * FROM resultados r WHERE r.jornada_id = ${jornada_id} `;
+    
+        let selectResult = await this.runQueryAsync( selectQuery, null ).catch( (error : any) => { console.log(error); throw new Error(Messages.QUERY_SELECT_ERROR)} );
+        if ( !selectResult.rows.length ) { return null; }
+        return selectResult.rows;
+    }
+
+
 
     //agregar a la tabla el campo de activo
     async selectAll( tabla: string ){

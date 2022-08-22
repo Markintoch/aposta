@@ -15,6 +15,7 @@ class ResultadoRouter{
         this.router.post('/update', ResultadoController.updateResultado.bind(ResultadoController));
         this.router.get('/delete/:id', ResultadoController.deleteResultado.bind(ResultadoController));
         this.router.get('/get/:id', ResultadoController.getResultado.bind(ResultadoController));
+        this.router.get('/get-by-jornada/:jornada', ResultadoController.checkExisteResultado.bind(ResultadoController))
         /* this.router.get('/list/:id', ResultadoController.getPartidosByJornada.bind(ResultadoController)); */
     }
 
