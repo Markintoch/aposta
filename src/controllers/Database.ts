@@ -18,7 +18,7 @@ const connection = new Client({
     /*/
     user : 'postgres',
     database : 'aposta', 
-    password : '0408',
+    password : '1205',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     /*/

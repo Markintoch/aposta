@@ -57,6 +57,31 @@ class Resultado{
         }
     }
 
+    async updateResultados( request : Request, response : Response ){
+        try{
+            let resultados : any  = request.body.resultados;
+            let jsonResultados : any = JSON.parse(resultados);
+            if ( jsonResultados == undefined || jsonResultados == null ){ throw new Error(Messages.PARTIDO_ID_ISREQUIRED); }
+            for(let resultado of jsonResultados){
+                if( resultado.resultado_id == undefined || resultado.resultado_id == null ){
+                    if( resultado.jornada_id == undefined || resultado.jornada_id == null ){ throw new Error(Messages.JORNADA_ID_ISREQUIRED); }
+                    if( resultado.partido_id == undefined || resultado.partido_id == null ){ throw new Error(Messages.PARTIDO_ID_ISREQUIRED); }
+                    if( resultado.ganador_id == undefined || resultado.ganador_id == null ){ throw new Error(Messages.GANADOR_ID_ISREQUIRED); }
+                    let insertData = [resultado.jornada_id, resultado.partido_id, resultado.ganador_id ]
+                    await DatabaseController.simpleInsert( "resultados", "jornada_id, partido_id, ganador_id", insertData );
+                }else{
+                    let updateData = [resultado.ganador_id]
+                    await DatabaseController.simpleUpdateWithCondition( "resultados", ['ganador_id'], updateData, `resultado_id = ${resultado.resultado_id}`);
+                }
+            }
+            let body = { status : 200, message : Messages.SUCCESS_UPDATE, data : null };
+            response.json(body);
+        }catch(error : any ){
+            let errorBody = { error : error.message};
+            response.status(400).send(errorBody);
+        }
+    }
+
     async updateResultado( request : Request, response : Response ){
         try{
             let resultado_id : any = request.body.resultado_id;

@@ -10,6 +10,7 @@ class ResultadoRouter {
     config() {
         this.router.post('/create', ResultadoController_1.ResultadoController.createResultado.bind(ResultadoController_1.ResultadoController));
         this.router.post('/create-list', ResultadoController_1.ResultadoController.createResultados.bind(ResultadoController_1.ResultadoController));
+        this.router.post('/update-list', ResultadoController_1.ResultadoController.updateResultados.bind(ResultadoController_1.ResultadoController));
         this.router.post('/update', ResultadoController_1.ResultadoController.updateResultado.bind(ResultadoController_1.ResultadoController));
         this.router.get('/delete/:id', ResultadoController_1.ResultadoController.deleteResultado.bind(ResultadoController_1.ResultadoController));
         this.router.get('/get/:id', ResultadoController_1.ResultadoController.getResultado.bind(ResultadoController_1.ResultadoController));
