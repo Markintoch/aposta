@@ -56,6 +56,18 @@ class Jornada{
         }
     }
 
+    async getJornadasWeek( request : Request, response : Response ){
+        try{
+            let { idLiga, idTemporada } = request.params;
+            let resultQuery = await DatabaseController.selectJornadasWeek(idLiga, idTemporada);
+            let body = { status : 200, data : resultQuery };
+            response.json(body);
+        }catch(error : any ){
+            let errorBody = { error : error.message };
+            response.status(400).send(errorBody);
+        }
+    }
+
     async createJornada( request : Request, response : Response ){
         try{
             let liga_id : any  = request.body.liga_id;
